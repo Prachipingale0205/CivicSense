@@ -32,6 +32,11 @@ const complaintSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+complaintSchema.index({ status: 1 });
+complaintSchema.index({ category: 1 });
+complaintSchema.index({ department: 1 });
+complaintSchema.index({ urgencyScore: -1 });
+
 complaintSchema.index({ urgencyScore: -1, createdAt: -1 });
 complaintSchema.index({ citizen: 1, createdAt: -1 });
 complaintSchema.index({ status: 1, category: 1 });
