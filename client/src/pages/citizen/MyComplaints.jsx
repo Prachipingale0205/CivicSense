@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Search, SlidersHorizontal, MapPin, Eye, Inbox } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, MapPin, ChevronRight, Inbox, ChevronDown, ChevronUp } from 'lucide-react';
 import Navbar from '../../components/citizen/Navbar';
 import ChatbotWidget from '../../components/citizen/ChatbotWidget';
 import UrgencyBadge from '../../components/shared/UrgencyBadge';
@@ -14,9 +15,7 @@ export default function MyComplaints() {
     const [searchQuery, setSearchQuery] = useState('');
     const [expandedId, setExpandedId] = useState(null);
 
-    useEffect(() => {
-        fetchComplaints();
-    }, []);
+    useEffect(() => { fetchComplaints(); }, []);
 
     const fetchComplaints = async () => {
         setLoading(true);
@@ -30,127 +29,104 @@ export default function MyComplaints() {
         }
     };
 
-    const toggleExpand = (id) => {
-        setExpandedId(expandedId === id ? null : id);
-    };
+    const toggleExpand = (id) => setExpandedId(expandedId === id ? null : id);
 
     const filteredComplaints = complaints.filter(
-        (c) =>
-            c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (c) => c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             c.trackingId.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-        <div className="min-h-screen bg-[#F9FAFB] font-sans">
+        <div className="min-h-screen bg-background font-sans">
             <Navbar />
 
-            <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-                {/* Header & Search */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <main className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+                {/* Breadcrumb */}
+                <div className="flex items-center gap-1.5 text-[12px] text-gray-400 mb-5">
+                    <Link to="/" className="hover:text-gray-600 transition-colors duration-200">Home</Link>
+                    <ChevronRight className="w-3 h-3" />
+                    <span className="text-gray-600 font-medium">My Tickets</span>
+                </div>
+
+                {/* Header + Search */}
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-[#111827] tracking-tight">Track My Complaints</h1>
-                        <p className="text-[14px] text-[#6B7280] mt-1">
-                            Monitor the live status and history of your reported issues.
+                        <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">My Tickets</h1>
+                        <p className="text-[13px] text-gray-500 mt-0.5">
+                            {loading ? 'Loading...' : `${filteredComplaints.length} complaint${filteredComplaints.length !== 1 ? 's' : ''}`}
                         </p>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                        <div className="relative w-full sm:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" />
-                            <input
-                                type="text"
-                                placeholder="Search by Ticket ID or Title..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full h-10 border border-[#D1D5DB] rounded-lg pl-9 pr-3 text-[14px] focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all placeholder:text-[#9CA3AF] text-[#111827] bg-white shadow-sm"
-                            />
-                        </div>
-                        <button className="h-10 px-3 border border-[#D1D5DB] bg-white rounded-lg text-[#4B5563] hover:text-[#111827] hover:bg-[#F9FAFB] hover:border-[#9CA3AF] transition-colors shadow-sm flex items-center gap-2">
-                            <SlidersHorizontal className="w-4 h-4" />
-                            <span className="text-[13px] font-medium hidden sm:block">Filter</span>
-                        </button>
+                    <div className="relative w-full sm:w-56">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                        <input
+                            type="text" placeholder="Search tickets..." value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="input-field h-9 pl-8 pr-3 text-[13px]"
+                        />
                     </div>
                 </div>
 
-                {/* Complaint List */}
+                {/* List */}
                 {loading ? (
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         {[1, 2, 3].map((i) => (
-                            <div key={i} className="h-28 bg-white border border-[#E5E7EB] rounded-xl animate-pulse shadow-sm" />
+                            <div key={i} className="h-20 bg-white border border-gray-200/80 rounded-xl skeleton-shimmer" />
                         ))}
                     </div>
                 ) : filteredComplaints.length === 0 ? (
-                    <div className="bg-white rounded-xl border border-[#E5E7EB] p-12 text-center shadow-sm">
-                        <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                            <Inbox className="w-6 h-6" />
-                        </div>
-                        <p className="text-[#111827] font-semibold text-lg">No complaints found</p>
-                        <p className="text-[#6B7280] text-[14px] mt-1 mb-6 max-w-sm mx-auto">
-                            You haven't submitted any complaints yet, or your search didn't match any records.
-                        </p>
+                    <div className="card py-16 text-center">
+                        <Inbox className="w-10 h-10 text-gray-200 mx-auto mb-3" />
+                        <p className="text-[14px] text-gray-500 font-medium">No tickets found</p>
+                        <p className="text-[12px] text-gray-400 mt-1">You haven't submitted any complaints yet.</p>
+                        <Link to="/submit" className="inline-flex items-center mt-4 text-[13px] text-primary-600 hover:text-primary-700 font-medium transition-colors">
+                            File a report →
+                        </Link>
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-2">
                         {filteredComplaints.map((complaint) => {
                             const isExpanded = expandedId === complaint._id;
                             return (
-                                <div
-                                    key={complaint._id}
-                                    className="bg-white border border-[#E5E7EB] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                                    onClick={() => toggleExpand(complaint._id)}
-                                >
-                                    {/* Card Header ( zawsze widoczny ) */}
-                                    <div className="p-5 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <span className="font-mono text-[11px] font-semibold tracking-wider text-[#6B7280] bg-[#F3F4F6] px-2 py-0.5 rounded">
-                                                    {complaint.trackingId}
-                                                </span>
-                                                <UrgencyBadge label={complaint.urgencyLabel} />
-                                                <span className="text-[12px] text-[#9CA3AF]">
-                                                    {new Date(complaint.createdAt).toLocaleDateString('en-IN', {
-                                                        day: 'numeric',
-                                                        month: 'short',
-                                                        year: 'numeric'
-                                                    })}
+                                <div key={complaint._id}
+                                    className="card-hover overflow-hidden">
+                                    {/* Row */}
+                                    <button
+                                        onClick={() => toggleExpand(complaint._id)}
+                                        className="w-full text-left px-4 py-3.5 flex items-center gap-3"
+                                    >
+                                        {/* Left border indicator */}
+                                        <div className={`w-1 h-10 rounded-full flex-shrink-0 ${complaint.urgencyLabel === 'Critical' ? 'bg-red-500' :
+                                            complaint.urgencyLabel === 'High' ? 'bg-orange-400' :
+                                                complaint.urgencyLabel === 'Medium' ? 'bg-yellow-400' : 'bg-emerald-400'
+                                            }`} />
+
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <span className="font-mono text-[10px] text-gray-400 font-medium">{complaint.trackingId}</span>
+                                                <span className="text-[10px] text-gray-300">·</span>
+                                                <span className="text-[11px] text-gray-400">
+                                                    {new Date(complaint.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                                                 </span>
                                             </div>
-                                            <h3 className="text-[16px] font-semibold text-[#111827] mb-1.5 line-clamp-1">
-                                                {complaint.title}
-                                            </h3>
-                                            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-[#4B5563]">
-                                                <span className="flex items-center gap-1.5">
-                                                    <MapPin className="w-3.5 h-3.5 text-[#9CA3AF]" /> {complaint.location}
-                                                </span>
-                                                <span className="flex items-center gap-1.5">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-[#D1D5DB]" /> {complaint.category}
+                                            <p className="text-[14px] font-medium text-gray-900 truncate">{complaint.title}</p>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <span className="text-[11px] text-gray-400 flex items-center gap-1">
+                                                    <MapPin className="w-3 h-3" /> {complaint.location}
                                                 </span>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between sm:flex-col sm:items-end gap-3 self-start w-full sm:w-auto mt-2 sm:mt-0 pt-3 sm:pt-0 border-t border-[#F3F4F6] sm:border-0">
+                                        <div className="flex items-center gap-2 flex-shrink-0">
                                             <StatusBadge status={complaint.status} />
-                                            <button
-                                                className="text-[13px] font-medium text-[#2563EB] hover:text-[#1D4ED8] flex items-center gap-1 transition-colors"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleExpand(complaint._id);
-                                                }}
-                                            >
-                                                {isExpanded ? 'Hide Details' : 'View Timeline'}
-                                            </button>
+                                            {isExpanded ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
                                         </div>
-                                    </div>
+                                    </button>
 
-                                    {/* Expanded Timeline Section */}
+                                    {/* Expanded Timeline */}
                                     {isExpanded && (
-                                        <div className="px-5 sm:px-6 py-6 bg-[#F8FAFC] border-t border-[#E5E7EB]">
-                                            <h4 className="text-[13px] font-semibold text-[#374151] uppercase tracking-wider mb-5 flex items-center gap-2">
-                                                <span className="bg-[#E2E8F0] w-2 h-2 rounded-full" /> Case Lifecycle
-                                            </h4>
-                                            <div className="pl-2">
-                                                <StatusTimeline statusHistory={complaint.statusHistory || []} />
-                                            </div>
+                                        <div className="px-4 pb-4 pt-1 border-t border-gray-100 ml-7">
+                                            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3 mt-3">Timeline</p>
+                                            <StatusTimeline statusHistory={complaint.statusHistory || []} />
                                         </div>
                                     )}
                                 </div>

@@ -13,14 +13,14 @@ export default function StatusTimeline({ statusHistory = [] }) {
                 const isLast = index === statusHistory.length - 1;
 
                 return (
-                    <div key={index} className="flex gap-3">
+                    <div key={index} className="flex gap-3.5">
                         {/* Dot and line */}
                         <div className="flex flex-col items-center">
                             {isCompleted && (
-                                <div className="w-3 h-3 bg-green-500 rounded-full flex-shrink-0 mt-1" />
+                                <div className="w-3 h-3 bg-emerald-500 rounded-full flex-shrink-0 mt-1 shadow-sm ring-2 ring-emerald-100" />
                             )}
                             {isCurrent && (
-                                <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0 mt-1 animate-pulse" />
+                                <div className="w-3 h-3 bg-primary-600 rounded-full flex-shrink-0 mt-1 animate-pulse shadow-sm ring-2 ring-primary-100" />
                             )}
                             {!isCompleted && !isCurrent && (
                                 <div className="w-3 h-3 border-2 border-gray-300 rounded-full flex-shrink-0 mt-1" />
@@ -30,8 +30,8 @@ export default function StatusTimeline({ statusHistory = [] }) {
 
                         {/* Content */}
                         <div className="pb-4">
-                            <p className="font-medium text-sm text-gray-900">{entry.status}</p>
-                            <p className="text-xs text-gray-400">
+                            <p className="font-semibold text-[13px] text-gray-900">{entry.status}</p>
+                            <p className="text-[12px] text-gray-400 mt-0.5">
                                 {new Date(entry.date).toLocaleDateString('en-IN', {
                                     day: 'numeric',
                                     month: 'short',
@@ -41,7 +41,7 @@ export default function StatusTimeline({ statusHistory = [] }) {
                                 })}
                             </p>
                             {entry.note && (
-                                <p className="text-xs text-gray-500 italic mt-0.5">{entry.note}</p>
+                                <p className="text-[12px] text-gray-500 mt-1 leading-relaxed">{entry.note}</p>
                             )}
                         </div>
                     </div>

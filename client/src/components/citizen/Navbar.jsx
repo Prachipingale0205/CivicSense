@@ -1,64 +1,82 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../store/AuthContext';
-import { User, LogOut, FileText } from 'lucide-react';
+import { LogOut, Plus, LayoutList, Search } from 'lucide-react';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
+    const location = useLocation();
+
+    const isActive = (path) => location.pathname === path;
 
     return (
-        <nav className="sticky top-0 z-50 h-[64px] bg-white border-b border-[#E5E7EB] flex items-center px-4 sm:px-8 shadow-sm">
+        <nav className="sticky top-0 z-50 h-14 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 flex items-center px-4 sm:px-6 shadow-nav">
             <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
                 {/* Logo */}
-                <Link to="/" className="flex items-center gap-2.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#2563EB]" />
-                    <span className="text-[17px] font-bold text-[#111827] tracking-tight">CivicSense</span>
+                <Link to="/" className="flex items-center gap-2.5 group">
+                    <div className="w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow duration-200">
+                        <span className="text-white text-[11px] font-black tracking-tight">CS</span>
+                    </div>
+                    <span className="text-[15px] font-bold text-gray-900 tracking-tight">CivicSense</span>
                 </Link>
 
-                {/* Links */}
-                <div className="flex items-center gap-3">
+                {/* Nav Links */}
+                {user && (
+                    <div className="hidden sm:flex items-center gap-0.5 ml-8">
+                        <Link
+                            to="/submit"
+                            className={`nav-link ${isActive('/submit') ? 'bg-primary-50 text-primary-700' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}
+                        >
+                            <Plus className="w-3.5 h-3.5" />
+                            New Report
+                        </Link>
+                        <Link
+                            to="/my-complaints"
+                            className={`nav-link ${isActive('/my-complaints') ? 'bg-primary-50 text-primary-700' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}
+                        >
+                            <LayoutList className="w-3.5 h-3.5" />
+                            My Tickets
+                        </Link>
+                        <Link
+                            to="/track"
+                            className={`nav-link ${isActive('/track') ? 'bg-primary-50 text-primary-700' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}
+                        >
+                            <Search className="w-3.5 h-3.5" />
+                            Track
+                        </Link>
+                    </div>
+                )}
+
+                {/* Right Side */}
+                <div className="flex items-center gap-2">
                     {user ? (
                         <>
-                            <Link
-                                to="/submit"
-                                className="hidden sm:flex items-center gap-1.5 px-4 h-9 text-[13px] font-medium text-[#4B5563] hover:text-[#111827] hover:bg-[#F3F4F6] rounded-md transition-colors"
-                            >
-                                <FileText className="w-4 h-4" />
-                                New Complaint
-                            </Link>
-                            <Link
-                                to="/my-complaints"
-                                className="px-4 h-9 flex items-center bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#111827] rounded-md text-[13px] font-medium transition-colors border border-[#E5E7EB]"
-                            >
-                                Track Status
-                            </Link>
-                            <div className="h-4 w-px bg-[#E5E7EB] mx-1 hidden sm:block" />
-                            <div className="hidden sm:flex items-center gap-2 px-2">
-                                <div className="w-7 h-7 rounded-full bg-[#DBEAFE] text-[#1D4ED8] flex items-center justify-center text-[11px] font-bold">
+                            <div className="hidden sm:flex items-center gap-2.5 mr-1 border border-gray-200/80 bg-gray-50/80 rounded-lg px-3 py-1.5">
+                                <div className="w-6 h-6 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold shadow-sm">
                                     {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                                 </div>
-                                <span className="text-[13px] font-medium text-[#374151]">{user.name}</span>
+                                <span className="text-[12px] font-medium text-gray-700 max-w-[100px] truncate">{user.name}</span>
                             </div>
                             <button
                                 onClick={logout}
-                                className="w-9 h-9 flex items-center justify-center text-[#6B7280] hover:text-[#EF4444] hover:bg-[#FEE2E2] rounded-md transition-colors"
+                                className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
                                 title="Log out"
                             >
-                                <LogOut className="w-4 h-4" />
+                                <LogOut className="w-3.5 h-3.5" />
                             </button>
                         </>
                     ) : (
                         <>
                             <Link
                                 to="/login"
-                                className="px-4 h-9 flex items-center text-[13px] font-medium text-[#4B5563] hover:text-[#111827] transition-colors"
+                                className="px-3 h-8 flex items-center text-[13px] font-medium text-gray-600 hover:text-gray-900 transition-colors"
                             >
-                                Sign In
+                                Log in
                             </Link>
                             <Link
                                 to="/submit"
-                                className="px-5 h-9 flex items-center bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-md text-[13px] font-medium transition-colors shadow-sm"
+                                className="btn-primary h-8 px-4 text-[12px]"
                             >
-                                File a Complaint
+                                File a Report
                             </Link>
                         </>
                     )}

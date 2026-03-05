@@ -29,19 +29,19 @@ import api from '../../services/api';
 import toast from 'react-hot-toast';
 
 const STATUS_COLORS = {
-    Resolved: '#10B981',      // Emerald 500
-    'In Progress': '#2563EB', // Blue 600
-    'Under Review': '#F59E0B',// Amber 500
-    Submitted: '#9CA3AF',     // Gray 400
-    Rejected: '#EF4444',      // Red 500
+    Resolved: '#10B981',
+    'In Progress': '#2563EB',
+    'Under Review': '#F59E0B',
+    Submitted: '#9CA3AF',
+    Rejected: '#EF4444',
 };
 
 const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null;
     return (
-        <div className="bg-white border border-[#E5E7EB] shadow-sm rounded-lg px-4 py-3 text-[13px]">
-            <p className="font-semibold text-[#6B7280] mb-1">{label}</p>
-            <p className="text-[#111827] font-bold text-lg">{payload[0]?.value}</p>
+        <div className="bg-white border border-gray-200/80 shadow-soft-lg rounded-lg px-4 py-3 text-[13px]">
+            <p className="font-medium text-gray-500 mb-1">{label}</p>
+            <p className="text-gray-900 font-bold text-lg">{payload[0]?.value}</p>
         </div>
     );
 };
@@ -73,33 +73,33 @@ export default function Analytics() {
     const totalByStatus = data?.byStatus?.reduce((sum, s) => sum + s.count, 0) || 0;
 
     const allKpiCards = data ? [
-        { label: 'TOTAL COMPLAINTS', value: data.summary.total, icon: BarChart2, iconBg: 'bg-blue-50', iconColor: 'text-blue-600', valueColor: 'text-[#111827]', trend: '+12%', trendUp: true, adminOnly: false },
+        { label: 'TOTAL COMPLAINTS', value: data.summary.total, icon: BarChart2, iconBg: 'bg-primary-50', iconColor: 'text-primary-600', valueColor: 'text-gray-900', trend: '+12%', trendUp: true, adminOnly: false },
         { label: 'RESOLVED TODAY', value: data.summary.resolvedToday, icon: CheckCircle, iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600', valueColor: 'text-emerald-600', trend: '+3', trendUp: true, adminOnly: false },
         { label: 'CRITICAL PENDING', value: data.summary.criticalPending, icon: AlertTriangle, iconBg: 'bg-red-50', iconColor: 'text-red-600', valueColor: 'text-red-600', trend: '-2', trendUp: false, adminOnly: true },
-        { label: 'RESOLUTION RATE', value: `${data.summary.resolutionRate}%`, icon: Zap, iconBg: 'bg-purple-50', iconColor: 'text-purple-600', valueColor: 'text-[#111827]', trend: '+5%', trendUp: true, adminOnly: true },
+        { label: 'RESOLUTION RATE', value: `${data.summary.resolutionRate}%`, icon: Zap, iconBg: 'bg-purple-50', iconColor: 'text-purple-600', valueColor: 'text-gray-900', trend: '+5%', trendUp: true, adminOnly: true },
     ] : [];
 
     const kpiCards = isAdminRole ? allKpiCards : allKpiCards.filter(c => !c.adminOnly);
 
     return (
-        <div className="min-h-screen bg-[#F9FAFB] font-sans">
+        <div className="min-h-screen bg-background font-sans">
             <TopNav />
 
             <main className="px-4 sm:px-6 lg:px-8 py-8 max-w-[1400px] mx-auto">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                     <div>
-                        <h1 className="text-2xl font-bold text-[#111827] tracking-tight">Analytics</h1>
-                        <p className="text-[14px] text-[#6B7280] mt-1">
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Analytics</h1>
+                        <p className="text-[14px] text-gray-500 mt-1">
                             {isAdminRole ? 'System-wide civic intelligence report' : 'Your department complaint trends'}
                         </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5 bg-gray-100 p-1 rounded-lg">
                         {DATE_RANGES.map((range) => (
                             <button key={range} onClick={() => setDateRange(range)}
-                                className={`h-9 px-4 rounded-lg text-[13px] font-semibold transition-colors shadow-sm ${dateRange === range
-                                    ? 'bg-[#111827] text-white'
-                                    : 'bg-white border border-[#D1D5DB] text-[#4B5563] hover:border-[#9CA3AF] hover:text-[#111827]'
+                                className={`h-8 px-4 rounded-md text-[13px] font-medium transition-all duration-200 ${dateRange === range
+                                    ? 'bg-white text-gray-900 shadow-soft-sm'
+                                    : 'text-gray-500 hover:text-gray-700'
                                     }`}>
                                 {range}
                             </button>
@@ -109,7 +109,7 @@ export default function Analytics() {
 
                 {/* Officer info banner */}
                 {!isAdminRole && (
-                    <div className="mb-6 px-5 py-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-[13px] text-emerald-800 font-medium flex items-center gap-2 shadow-sm">
+                    <div className="mb-6 px-5 py-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-[13px] text-emerald-800 font-medium flex items-center gap-2 shadow-soft-sm">
                         <CheckCircle className="w-4 h-4 text-emerald-600" />
                         Showing analytics specifically tailored for your assigned departmental zone.
                     </div>
@@ -130,20 +130,20 @@ export default function Analytics() {
                         {/* KPI Cards */}
                         <div className={`grid gap-5 mb-8 ${isAdminRole ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' : 'grid-cols-1 sm:grid-cols-2'}`}>
                             {kpiCards.map((card) => (
-                                <div key={card.label} className="bg-white rounded-xl border border-[#E5E7EB] p-5 shadow-sm">
-                                    <p className="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider mb-3">{card.label}</p>
+                                <div key={card.label} className="card p-5 hover:shadow-card-hover transition-all duration-300">
+                                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">{card.label}</p>
                                     <div className="flex items-end justify-between">
                                         <p className={`text-4xl font-bold tracking-tight leading-none ${card.valueColor}`}>
                                             {card.value}
                                         </p>
-                                        <div className={`w-10 h-10 rounded-xl ${card.iconBg} flex items-center justify-center shadow-sm`}>
+                                        <div className={`w-10 h-10 rounded-xl ${card.iconBg} flex items-center justify-center`}>
                                             <card.icon className={`w-5 h-5 ${card.iconColor}`} />
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-[#F3F4F6]">
-                                        {card.trendUp ? <TrendingUp className="w-3.5 h-3.5 text-[#10B981]" /> : <TrendingDown className="w-3.5 h-3.5 text-[#EF4444]" />}
-                                        <span className={`text-[12px] font-bold ${card.trendUp ? 'text-[#10B981]' : 'text-[#EF4444]'}`}>{card.trend}</span>
-                                        <span className="text-[12px] font-medium text-[#9CA3AF]">vs previous period</span>
+                                    <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-gray-100">
+                                        {card.trendUp ? <TrendingUp className="w-3.5 h-3.5 text-emerald-500" /> : <TrendingDown className="w-3.5 h-3.5 text-red-500" />}
+                                        <span className={`text-[12px] font-bold ${card.trendUp ? 'text-emerald-500' : 'text-red-500'}`}>{card.trend}</span>
+                                        <span className="text-[12px] font-medium text-gray-400">vs previous period</span>
                                     </div>
                                 </div>
                             ))}
@@ -151,26 +151,26 @@ export default function Analytics() {
 
                         {/* Charts Row 1 */}
                         <div className={`grid gap-6 mb-6 ${isAdminRole ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 lg:grid-cols-2'}`}>
-                            {/* Bar Chart - visible to both */}
-                            <div className="bg-white rounded-xl border border-[#E5E7EB] p-6 shadow-sm">
-                                <h3 className="text-[16px] font-bold text-[#111827] mb-1">Incoming Categories</h3>
-                                <p className="text-[13px] text-[#6B7280] mb-6">Distribution across primary civic issue categories</p>
+                            {/* Bar Chart */}
+                            <div className="card p-6">
+                                <h3 className="text-[16px] font-bold text-gray-900 mb-1">Incoming Categories</h3>
+                                <p className="text-[13px] text-gray-500 mb-6">Distribution across primary civic issue categories</p>
                                 <ResponsiveContainer width="100%" height={300}>
                                     <BarChart data={data.byCategory} margin={{ top: 5, right: 10, bottom: 5, left: -20 }}>
-                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-                                        <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} dy={10} />
-                                        <YAxis tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} />
-                                        <Tooltip content={<CustomTooltip />} cursor={{ fill: '#F3F4F6' }} />
-                                        <Bar dataKey="count" fill="#2563EB" radius={[4, 4, 0, 0]} maxBarSize={50} />
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                        <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} dy={10} />
+                                        <YAxis tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} />
+                                        <Tooltip content={<CustomTooltip />} cursor={{ fill: '#F1F5F9' }} />
+                                        <Bar dataKey="count" fill="#2563EB" radius={[6, 6, 0, 0]} maxBarSize={50} />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
 
-                            {/* Donut Chart - admin only / Area Chart for officer */}
+                            {/* Donut / Area Chart */}
                             {isAdminRole ? (
-                                <div className="bg-white rounded-xl border border-[#E5E7EB] p-6 shadow-sm">
-                                    <h3 className="text-[16px] font-bold text-[#111827] mb-1">Status Breakdown</h3>
-                                    <p className="text-[13px] text-[#6B7280] mb-6">Real-time status of tracked complaints</p>
+                                <div className="card p-6">
+                                    <h3 className="text-[16px] font-bold text-gray-900 mb-1">Status Breakdown</h3>
+                                    <p className="text-[13px] text-gray-500 mb-6">Real-time status of tracked complaints</p>
                                     <div className="relative">
                                         <ResponsiveContainer width="100%" height={300}>
                                             <PieChart>
@@ -184,20 +184,20 @@ export default function Analytics() {
                                             </PieChart>
                                         </ResponsiveContainer>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" style={{ marginTop: '-40px' }}>
-                                            <span className="text-4xl font-extrabold text-[#111827] mb-1">{totalByStatus}</span>
-                                            <span className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider">Total</span>
+                                            <span className="text-4xl font-extrabold text-gray-900 mb-1">{totalByStatus}</span>
+                                            <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Total</span>
                                         </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="bg-white rounded-xl border border-[#E5E7EB] p-6 shadow-sm">
-                                    <h3 className="text-[16px] font-bold text-[#111827] mb-1">Inflow Trend</h3>
-                                    <p className="text-[13px] text-[#6B7280] mb-6">Daily complaint volume over time</p>
+                                <div className="card p-6">
+                                    <h3 className="text-[16px] font-bold text-gray-900 mb-1">Inflow Trend</h3>
+                                    <p className="text-[13px] text-gray-500 mb-6">Daily complaint volume over time</p>
                                     <ResponsiveContainer width="100%" height={300}>
                                         <AreaChart data={data.overTime} margin={{ top: 5, right: 10, bottom: 5, left: -20 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-                                            <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} dy={10} />
-                                            <YAxis tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                            <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} dy={10} />
+                                            <YAxis tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} />
                                             <Tooltip content={<CustomTooltip />} />
                                             <Area type="monotone" dataKey="count" stroke="#2563EB" strokeWidth={3} fill="#EFF6FF" fillOpacity={1} dot={{ r: 4, fill: '#2563EB', strokeWidth: 0 }} activeDot={{ r: 6 }} />
                                         </AreaChart>
@@ -206,23 +206,23 @@ export default function Analytics() {
                             )}
                         </div>
 
-                        {/* Charts Row 2 - admin only */}
+                        {/* Charts Row 2 — admin only */}
                         {isAdminRole && (
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {/* Area Chart */}
-                                <div className="bg-white rounded-xl border border-[#E5E7EB] p-6 shadow-sm">
-                                    <h3 className="text-[16px] font-bold text-[#111827] mb-1">Inflow Trend</h3>
-                                    <p className="text-[13px] text-[#6B7280] mb-6">Daily complaint volume over time</p>
+                                <div className="card p-6">
+                                    <h3 className="text-[16px] font-bold text-gray-900 mb-1">Inflow Trend</h3>
+                                    <p className="text-[13px] text-gray-500 mb-6">Daily complaint volume over time</p>
                                     <ResponsiveContainer width="100%" height={300}>
                                         <AreaChart data={data.overTime} margin={{ top: 5, right: 10, bottom: 5, left: -20 }}>
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-                                            <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} dy={10} />
-                                            <YAxis tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                            <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} dy={10} />
+                                            <YAxis tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} />
                                             <Tooltip content={<CustomTooltip />} />
                                             <Area type="monotone" dataKey="count" stroke="#2563EB" strokeWidth={3} fill="url(#colorCount)" fillOpacity={1} dot={{ r: 4, fill: '#2563EB', strokeWidth: 0 }} activeDot={{ r: 6 }} />
                                             <defs>
                                                 <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.2} />
+                                                    <stop offset="5%" stopColor="#2563EB" stopOpacity={0.15} />
                                                     <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
                                                 </linearGradient>
                                             </defs>
@@ -231,16 +231,16 @@ export default function Analytics() {
                                 </div>
 
                                 {/* Horizontal Bar */}
-                                <div className="bg-white rounded-xl border border-[#E5E7EB] p-6 shadow-sm">
-                                    <h3 className="text-[16px] font-bold text-[#111827] mb-1">Avg Resolution Time</h3>
-                                    <p className="text-[13px] text-[#6B7280] mb-6">Average hours taken by department</p>
+                                <div className="card p-6">
+                                    <h3 className="text-[16px] font-bold text-gray-900 mb-1">Avg Resolution Time</h3>
+                                    <p className="text-[13px] text-gray-500 mb-6">Average hours taken by department</p>
                                     <ResponsiveContainer width="100%" height={300}>
                                         <BarChart data={data.byDepartment} layout="vertical" margin={{ top: 5, right: 10, bottom: 5, left: 10 }}>
-                                            <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E5E7EB" />
-                                            <XAxis type="number" tick={{ fontSize: 12, fill: '#6B7280' }} axisLine={false} tickLine={false} />
+                                            <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#E2E8F0" />
+                                            <XAxis type="number" tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} />
                                             <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 12, fontMedium: true, fill: '#374151' }} axisLine={false} tickLine={false} />
-                                            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#F3F4F6' }} />
-                                            <Bar dataKey="avgHours" fill="#8B5CF6" radius={[0, 4, 4, 0]} barSize={18} />
+                                            <Tooltip content={<CustomTooltip />} cursor={{ fill: '#F1F5F9' }} />
+                                            <Bar dataKey="avgHours" fill="#8B5CF6" radius={[0, 6, 6, 0]} barSize={18} />
                                         </BarChart>
                                     </ResponsiveContainer>
                                 </div>

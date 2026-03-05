@@ -36,49 +36,51 @@ export default function AdminLogin() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F9FAFB] flex items-center justify-center px-4 font-sans">
-            <div className="w-full max-w-[420px] bg-white rounded-2xl border border-[#E5E7EB] p-8 sm:p-10 shadow-sm">
+        <div className="min-h-screen bg-background flex items-center justify-center px-4 font-sans">
+            <div className="w-full max-w-[420px] bg-white rounded-2xl border border-gray-200/60 p-8 sm:p-10 shadow-soft-lg">
                 <div className="text-center mb-8">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                        <div className="w-3 h-3 rounded-full bg-[#2563EB]" />
-                        <span className="text-xl font-bold text-[#111827] tracking-tight">CivicSense</span>
+                    <div className="flex items-center justify-center gap-2.5 mb-2">
+                        <div className="w-7 h-7 rounded-lg bg-gray-900 flex items-center justify-center shadow-sm">
+                            <span className="text-white text-[10px] font-black">CS</span>
+                        </div>
+                        <span className="text-xl font-bold text-gray-900 tracking-tight">CivicSense</span>
                     </div>
-                    <p className="text-[14px] text-[#6B7280] font-medium">Admin & Officer Portal</p>
+                    <p className="text-[14px] text-gray-500 font-medium">Admin & Officer Portal</p>
                 </div>
 
                 {error && (
-                    <div className="mb-6 p-3 bg-[#FEF2F2] border border-[#FECACA] rounded-lg text-[13px] font-medium text-[#DC2626]">
+                    <div className="mb-6 p-3.5 bg-red-50 border border-red-200 rounded-lg text-[13px] font-medium text-red-600">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleLogin} className="space-y-5">
                     <div>
-                        <label className="block text-[13px] font-semibold text-[#374151] mb-1.5">Email Address</label>
+                        <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">Email Address</label>
                         <input
                             type="email"
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             required
                             placeholder="admin@example.com"
-                            className="w-full h-11 border border-[#D1D5DB] rounded-lg px-4 text-[14px] text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 transition-all bg-[#F9FAFB] hover:bg-white"
+                            className="input-field-lg"
                         />
                     </div>
                     <div>
-                        <label className="block text-[13px] font-semibold text-[#374151] mb-1.5">Password</label>
+                        <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">Password</label>
                         <input
                             type="password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                             required
                             placeholder="••••••••"
-                            className="w-full h-11 border border-[#D1D5DB] rounded-lg px-4 text-[14px] text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 transition-all bg-[#F9FAFB] hover:bg-white"
+                            className="input-field-lg"
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-11 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-lg text-[14px] font-semibold transition-all shadow-sm disabled:opacity-70 flex items-center justify-center gap-2 mt-2"
+                        className="btn-primary w-full h-11 text-[14px] mt-2"
                     >
                         {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Authenticating...</> : 'Sign In to Portal'}
                     </button>

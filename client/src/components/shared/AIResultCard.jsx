@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Check, CheckCircle2, Factory, Hash, AlertCircle } from 'lucide-react';
+import { Copy, Check, CheckCircle2, Factory, AlertCircle } from 'lucide-react';
 import UrgencyBadge from './UrgencyBadge';
 
 export default function AIResultCard({ category, department, urgencyScore, urgencyLabel, trackingId, aiSummary }) {
@@ -11,21 +11,14 @@ export default function AIResultCard({ category, department, urgencyScore, urgen
         if (urgencyScore == null) return;
         let current = 0;
         const target = urgencyScore;
-        const duration = 800;
-        const steps = 30;
+        const steps = 25;
         const increment = target / steps;
-        const interval = duration / steps;
-
+        const interval = 800 / steps;
         const timer = setInterval(() => {
             current += increment;
-            if (current >= target) {
-                setAnimatedScore(target);
-                clearInterval(timer);
-            } else {
-                setAnimatedScore(Math.round(current * 10) / 10);
-            }
+            if (current >= target) { setAnimatedScore(target); clearInterval(timer); }
+            else setAnimatedScore(Math.round(current * 10) / 10);
         }, interval);
-
         return () => clearInterval(timer);
     }, [urgencyScore]);
 
@@ -34,99 +27,72 @@ export default function AIResultCard({ category, department, urgencyScore, urgen
             await navigator.clipboard.writeText(trackingId);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
-        } catch {
-            // fallback
-        }
+        } catch { /* fallback */ }
     };
 
     const scoreColor = () => {
-        if (urgencyScore >= 8) return 'text-[#DC2626]'; // Red
-        if (urgencyScore >= 6) return 'text-[#D97706]'; // Amber
-        return 'text-[#059669]'; // Emerald
+        if (urgencyScore >= 8) return 'text-red-600';
+        if (urgencyScore >= 6) return 'text-amber-600';
+        return 'text-emerald-600';
     };
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] overflow-hidden"
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-xl border border-gray-200/80 overflow-hidden shadow-card"
         >
             {/* Header */}
-            <div className="bg-[#F8FAFC] border-b border-[#E5E7EB] px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h3 className="text-sm font-semibold text-[#111827] flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#059669]" />
-                        Report Categorized & Routed
-                    </h3>
-                    <p className="text-[13px] text-[#6B7280] mt-1 ml-7">System has successfully processed your submission.</p>
+            <div className="px-5 py-3.5 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 bg-gray-50/50">
+                <div className="flex items-center gap-2.5">
+                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                    </div>
+                    <span className="text-[13px] font-semibold text-gray-900">Processed & Routed</span>
                 </div>
-
-                {/* Tracking ID Copy */}
-                <div className="flex items-center gap-3 bg-white border border-[#E5E7EB] rounded-lg px-3 py-1.5 shadow-sm self-start sm:self-auto">
-                    <span className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider">Ticket ID</span>
-                    <span className="font-mono text-[13px] font-medium text-[#111827] border-l border-[#E5E7EB] pl-3 ml-1">
-                        {trackingId}
-                    </span>
-                    <button
-                        onClick={handleCopy}
-                        className="ml-2 text-[#9CA3AF] hover:text-[#111827] transition-colors p-1"
-                        title="Copy Ticket ID"
-                    >
-                        {copied ? <Check className="w-4 h-4 text-[#059669]" /> : <Copy className="w-4 h-4" />}
-                    </button>
-                </div>
+                <button onClick={handleCopy}
+                    className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-1.5 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 group">
+                    <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">ID</span>
+                    <span className="font-mono text-[12px] font-medium text-gray-900">{trackingId}</span>
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 transition-colors" />}
+                </button>
             </div>
 
             {/* Metrics */}
             <div className="p-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+                <div className="flex items-start gap-6 mb-5">
                     {/* Score */}
-                    <div>
-                        <div className="flex items-center gap-1.5 mb-2 text-[#6B7280]">
-                            <AlertCircle className="w-4 h-4" />
-                            <p className="text-[12px] font-semibold uppercase tracking-wider">Calculated Score</p>
-                        </div>
-                        <p className={`text-4xl font-bold tracking-tight ${scoreColor()} leading-none`}>{animatedScore}</p>
+                    <div className="flex-shrink-0">
+                        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Score</p>
+                        <p className={`text-[40px] font-extrabold tabular-nums leading-none tracking-tighter ${scoreColor()}`}>{animatedScore}</p>
+                        <div className="mt-2"><UrgencyBadge label={urgencyLabel} /></div>
                     </div>
 
-                    {/* Priority */}
-                    <div>
-                        <div className="flex items-center gap-1.5 mb-2.5 text-[#6B7280]">
-                            <Hash className="w-4 h-4" />
-                            <p className="text-[12px] font-semibold uppercase tracking-wider">Priority Level</p>
+                    {/* Details */}
+                    <div className="flex-1 space-y-4 pt-1">
+                        <div className="flex items-center gap-4">
+                            <div className="flex-1">
+                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Category</p>
+                                <p className="text-[14px] font-semibold text-gray-900">{category}</p>
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Department</p>
+                                <p className="text-[14px] font-semibold text-primary-600 flex items-center gap-1.5">
+                                    <Factory className="w-3.5 h-3.5" /> {department}
+                                </p>
+                            </div>
                         </div>
-                        <UrgencyBadge label={urgencyLabel} />
-                    </div>
-
-                    {/* Category */}
-                    <div>
-                        <div className="flex items-center gap-1.5 mb-2.5 text-[#6B7280]">
-                            <FileText className="w-4 h-4" />
-                            <p className="text-[12px] font-semibold uppercase tracking-wider">Category</p>
-                        </div>
-                        <p className="text-[14px] font-medium text-[#111827] truncate" title={category}>{category}</p>
-                    </div>
-
-                    {/* Department */}
-                    <div>
-                        <div className="flex items-center gap-1.5 mb-2.5 text-[#6B7280]">
-                            <Factory className="w-4 h-4" />
-                            <p className="text-[12px] font-semibold uppercase tracking-wider">Forwarded To</p>
-                        </div>
-                        <p className="text-[14px] font-medium text-[#2563EB] truncate" title={department}>{department}</p>
                     </div>
                 </div>
 
                 {/* AI Summary */}
                 {aiSummary && (
-                    <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-xl p-4">
-                        <p className="text-[11px] font-semibold text-[#16A34A] uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" /> AI Summary Note
+                    <div className="bg-emerald-50/60 border border-emerald-100 rounded-lg p-4">
+                        <p className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <AlertCircle className="w-3.5 h-3.5" /> AI Analysis
                         </p>
-                        <p className="text-[14px] text-[#065F46] leading-relaxed">
-                            {aiSummary}
-                        </p>
+                        <p className="text-[13px] text-emerald-800 leading-relaxed">{aiSummary}</p>
                     </div>
                 )}
             </div>

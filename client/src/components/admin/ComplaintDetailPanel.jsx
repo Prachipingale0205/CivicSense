@@ -34,10 +34,10 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
 
     const scoreColor = () => {
         const s = complaint.urgencyScore;
-        if (s >= 8) return 'text-[#DC2626]';
-        if (s >= 6) return 'text-[#F59E0B]';
-        if (s >= 4) return 'text-[#D97706]';
-        return 'text-[#10B981]';
+        if (s >= 8) return 'text-red-600';
+        if (s >= 6) return 'text-amber-500';
+        if (s >= 4) return 'text-orange-500';
+        return 'text-emerald-600';
     };
 
     const sentimentEmoji = (label) => {
@@ -57,7 +57,7 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-40"
+                        className="fixed inset-0 bg-gray-900/30 backdrop-blur-sm z-40"
                         onClick={onClose}
                     />
                     <motion.div
@@ -65,17 +65,17 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed right-0 top-0 h-full w-full sm:w-[480px] bg-white border-l border-[#E5E7EB] z-50 flex flex-col shadow-2xl font-sans"
+                        className="fixed right-0 top-0 h-full w-full sm:w-[480px] bg-white border-l border-gray-200/60 z-50 flex flex-col shadow-float font-sans"
                     >
                         {/* Header */}
-                        <div className="border-b border-[#E5E7EB] p-5 flex items-center justify-between flex-shrink-0 bg-[#F9FAFB]">
+                        <div className="border-b border-gray-200/60 p-5 flex items-center justify-between flex-shrink-0 bg-gray-50/80">
                             <div className="flex items-center gap-3">
-                                <span className="font-mono text-[12px] font-semibold bg-white border border-[#D1D5DB] text-[#4B5563] px-2.5 py-1 rounded-md shadow-sm">
+                                <span className="font-mono text-[12px] font-semibold bg-white border border-gray-200 text-gray-600 px-2.5 py-1 rounded-lg shadow-soft-sm">
                                     {complaint.trackingId}
                                 </span>
                                 <UrgencyBadge label={complaint.urgencyLabel} />
                             </div>
-                            <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#111827] hover:bg-[#E5E7EB] transition-colors">
+                            <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200">
                                 <X size={16} />
                             </button>
                         </div>
@@ -83,46 +83,46 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
                         {/* Content */}
                         <div className="flex-1 overflow-y-auto p-6 space-y-8">
                             <section>
-                                <p className="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Complaint Details</p>
-                                <h2 className="text-[18px] font-bold text-[#111827] leading-snug">{complaint.title}</h2>
-                                <p className="text-[14px] text-[#4B5563] mt-3 leading-relaxed whitespace-pre-wrap">{complaint.description}</p>
+                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Complaint Details</p>
+                                <h2 className="text-[18px] font-bold text-gray-900 leading-snug tracking-tight">{complaint.title}</h2>
+                                <p className="text-[14px] text-gray-500 mt-3 leading-relaxed whitespace-pre-wrap">{complaint.description}</p>
                                 <div className="flex flex-wrap gap-2 mt-4">
-                                    <span className="text-[12px] font-medium bg-[#F3F4F6] border border-[#E5E7EB] rounded-md px-2.5 py-1 text-[#4B5563]">{complaint.category}</span>
-                                    <span className="text-[12px] font-medium bg-emerald-50 border border-emerald-200 rounded-md px-2.5 py-1 text-emerald-700">{complaint.department}</span>
-                                    <span className="text-[12px] font-medium bg-white border border-[#E5E7EB] rounded-md px-2.5 py-1 text-[#6B7280]">
+                                    <span className="text-[12px] font-medium bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1 text-gray-600">{complaint.category}</span>
+                                    <span className="text-[12px] font-medium bg-emerald-50 border border-emerald-200 rounded-lg px-2.5 py-1 text-emerald-700">{complaint.department}</span>
+                                    <span className="text-[12px] font-medium bg-white border border-gray-200 rounded-lg px-2.5 py-1 text-gray-500">
                                         {new Date(complaint.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                                     </span>
                                     {complaint.location && (
-                                        <span className="text-[12px] font-medium bg-blue-50 border border-blue-200 rounded-md px-2.5 py-1 text-blue-700 flex items-center gap-1">
+                                        <span className="text-[12px] font-medium bg-blue-50 border border-blue-200 rounded-lg px-2.5 py-1 text-blue-700 flex items-center gap-1">
                                             <MapPin size={12} /> {complaint.location}
                                         </span>
                                     )}
                                 </div>
                             </section>
 
-                            <section className="bg-gradient-to-br from-[#F9FAFB] to-white border border-[#E5E7EB] rounded-xl p-5 shadow-sm">
-                                <p className="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider mb-3">AI Intelligence Analysis</p>
+                            <section className="bg-gradient-to-br from-gray-50 to-white border border-gray-200/80 rounded-xl p-5 shadow-card">
+                                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">AI Intelligence Analysis</p>
                                 <div className="flex items-center gap-5">
                                     <span className={`text-[44px] font-extrabold leading-none tracking-tighter ${scoreColor()}`}>{complaint.urgencyScore}</span>
                                     <div>
                                         <UrgencyBadge label={complaint.urgencyLabel} />
                                         {complaint.sentiment && (
-                                            <p className="text-[13px] font-medium mt-1.5 text-[#4B5563] flex items-center gap-1.5">
+                                            <p className="text-[13px] font-medium mt-1.5 text-gray-500 flex items-center gap-1.5">
                                                 <span>{sentimentEmoji(complaint.sentiment)}</span> {complaint.sentiment} Tone
                                             </p>
                                         )}
                                     </div>
                                 </div>
                                 {complaint.aiSummary && (
-                                    <div className="mt-4 pt-4 border-t border-[#F3F4F6]">
-                                        <p className="text-[13px] text-[#4B5563] leading-relaxed">{complaint.aiSummary}</p>
+                                    <div className="mt-4 pt-4 border-t border-gray-100">
+                                        <p className="text-[13px] text-gray-500 leading-relaxed">{complaint.aiSummary}</p>
                                     </div>
                                 )}
                             </section>
 
                             <section>
                                 <div className="flex items-center justify-between mb-4">
-                                    <p className="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider">Status Timeline</p>
+                                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Status Timeline</p>
                                     <StatusBadge status={complaint.status} />
                                 </div>
                                 <StatusTimeline statusHistory={complaint.statusHistory || []} />
@@ -130,14 +130,14 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
                         </div>
 
                         {/* Footer */}
-                        <div className="border-t border-[#E5E7EB] p-5 bg-[#F9FAFB] flex-shrink-0 space-y-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
-                            <div className="flex flex-col gap-1.5 mb-2">
-                                <label className="text-[12px] font-semibold text-[#4B5563]">Update Status</label>
+                        <div className="border-t border-gray-200/60 p-5 bg-gray-50/80 flex-shrink-0 space-y-3">
+                            <div className="flex flex-col gap-2 mb-2">
+                                <label className="text-[12px] font-semibold text-gray-500">Update Status</label>
                                 <div className="flex items-center gap-3">
                                     <select
                                         value={status}
                                         onChange={(e) => setStatus(e.target.value)}
-                                        className="flex-1 h-10 border border-[#D1D5DB] rounded-lg px-3 text-[14px] text-[#111827] focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 focus:outline-none bg-white shadow-sm transition-all"
+                                        className="flex-1 h-10 border border-gray-200 rounded-lg px-3 text-[14px] text-gray-900 focus:border-primary-500 focus:ring-2 focus:ring-primary-600/10 focus:outline-none bg-white shadow-soft-sm transition-all duration-200 hover:border-gray-300 cursor-pointer"
                                     >
                                         {statusOptions.map((s) => (
                                             <option key={s} value={s}>{s}</option>
@@ -146,14 +146,14 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
                                     <button
                                         onClick={handleStatusUpdate}
                                         disabled={updating}
-                                        className="h-10 px-5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-lg text-[14px] font-semibold transition-all disabled:opacity-70 flex items-center gap-2 shadow-sm whitespace-nowrap"
+                                        className="btn-primary h-10 px-5 whitespace-nowrap"
                                     >
                                         {updating ? <><Loader2 className="w-4 h-4 animate-spin" /> Updating...</> : 'Update Status'}
                                     </button>
                                 </div>
                             </div>
                             {isAdminRole && (
-                                <button className="w-full h-9 bg-white border border-[#FECACA] hover:bg-[#FEF2F2] text-[#DC2626] rounded-lg text-[13px] font-semibold transition-colors shadow-sm">
+                                <button className="w-full h-9 bg-white border border-red-200 hover:bg-red-50 text-red-600 rounded-lg text-[13px] font-semibold transition-all duration-200 shadow-soft-sm hover:shadow-sm">
                                     Reject & Internal Dismiss
                                 </button>
                             )}

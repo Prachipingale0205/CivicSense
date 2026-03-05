@@ -93,8 +93,8 @@ export default function AdminDashboard() {
     };
 
     const urgencyBorder = (label) => {
-        const map = { Critical: 'border-l-[#dc2626]', High: 'border-l-[#ea580c]', Medium: 'border-l-[#d97706]', Low: 'border-l-[#16a34a]' };
-        return map[label] || 'border-l-[#e8e8e6]';
+        const map = { Critical: 'border-l-red-500', High: 'border-l-orange-400', Medium: 'border-l-amber-400', Low: 'border-l-emerald-400' };
+        return map[label] || 'border-l-gray-200';
     };
 
     const tabCounts = useMemo(() => ({
@@ -113,49 +113,49 @@ export default function AdminDashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f9f9f8]">
+        <div className="min-h-screen bg-background">
             <TopNav />
 
-            <main className="px-6 lg:px-8 py-5 max-w-[1400px] mx-auto">
+            <main className="px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
                 {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-[#111827] tracking-tight">Complaints</h1>
-                        <p className="text-[14px] text-[#6B7280] mt-0.5">
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Complaints</h1>
+                        <p className="text-[14px] text-gray-500 mt-0.5">
                             {isAdminRole ? `${activeCount} active · sorted by urgency` : `${activeCount} active · your assigned complaints`}
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <input
                                 type="text" value={searchQuery}
                                 onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
                                 placeholder="Search..."
-                                className="w-44 lg:w-64 h-10 border border-[#D1D5DB] rounded-lg pl-9 pr-3 text-[14px] text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 shadow-sm"
+                                className="input-field w-44 lg:w-64 pl-9 shadow-soft-sm"
                             />
                         </div>
-                        <button className="h-10 px-3 border border-[#D1D5DB] rounded-lg text-[14px] font-medium text-[#4B5563] hover:border-[#9CA3AF] hover:text-[#111827] hover:bg-[#F9FAFB] transition-colors flex items-center gap-2 bg-white shadow-sm">
+                        <button className="btn-secondary h-10 shadow-soft-sm">
                             <SlidersHorizontal size={16} /> Filter
                         </button>
                         {isAdminRole && (
-                            <button className="h-10 px-4 bg-[#2563EB] text-white rounded-lg text-[14px] font-medium hover:bg-[#1D4ED8] transition-colors flex items-center gap-2 shadow-sm">
+                            <button className="btn-primary">
                                 <Download size={16} /> Export
                             </button>
                         )}
                     </div>
                 </div>
 
-                <div className="flex gap-2 border-b border-[#E5E7EB] mb-6 overflow-x-auto">
+                <div className="flex gap-1 border-b border-gray-200 mb-6 overflow-x-auto">
                     {TABS.map((tab) => (
                         <button
                             key={tab}
                             onClick={() => { setActiveTab(tab); setPage(1); }}
-                            className={`px-4 py-2 text-[14px] font-medium whitespace-nowrap border-b-2 -mb-px transition-colors ${activeTab === tab ? 'text-[#2563EB] border-[#2563EB]' : 'text-[#6B7280] border-transparent hover:text-[#111827] hover:border-[#D1D5DB]'
+                            className={`px-4 py-2.5 text-[13px] font-medium whitespace-nowrap border-b-2 -mb-px transition-all duration-200 ${activeTab === tab ? 'text-primary-600 border-primary-600' : 'text-gray-400 border-transparent hover:text-gray-700 hover:border-gray-300'
                                 }`}
                         >
                             {tab}
-                            <span className={`ml-2 text-[11px] px-2 py-0.5 rounded-full font-semibold ${activeTab === tab ? 'bg-[#DBEAFE] text-[#1D4ED8]' : 'bg-[#F3F4F6] text-[#6B7280]'
+                            <span className={`ml-2 text-[11px] px-2 py-0.5 rounded-full font-semibold ${activeTab === tab ? 'bg-primary-50 text-primary-700' : 'bg-gray-100 text-gray-500'
                                 }`}>
                                 {tabCounts[tab]}
                             </span>
@@ -169,32 +169,32 @@ export default function AdminDashboard() {
                         {[1, 2, 3, 4, 5].map((i) => <SkeletonCard key={i} compact lines={2} />)}
                     </div>
                 ) : paginatedComplaints.length === 0 ? (
-                    <div className="bg-white rounded-xl border border-[#E5E7EB] py-16 text-center shadow-sm">
-                        <FileX className="w-12 h-12 text-[#D1D5DB] mx-auto mb-3" />
-                        <p className="text-[15px] text-[#4B5563] font-medium">No complaints found</p>
+                    <div className="card py-16 text-center">
+                        <FileX className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+                        <p className="text-[15px] text-gray-500 font-medium">No complaints found</p>
                         <button onClick={() => { setActiveTab('All'); setSearchQuery(''); setPage(1); }}
-                            className="mt-3 text-[14px] text-[#2563EB] hover:text-[#1D4ED8] hover:underline font-semibold">
+                            className="mt-3 text-[14px] text-primary-600 hover:text-primary-700 hover:underline font-semibold transition-colors">
                             Clear filters
                         </button>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-xl border border-[#E5E7EB] overflow-hidden shadow-sm">
+                    <div className="card overflow-hidden">
                         {/* Table header */}
-                        <div className="hidden lg:grid grid-cols-[90px_110px_1fr_110px_100px_80px_90px_80px] bg-[#f9f9f8] border-b border-[#e8e8e6]">
-                            <button onClick={() => handleSort('urgencyScore')} className="text-left text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5 hover:text-[#52525b]">
+                        <div className="hidden lg:grid grid-cols-[90px_110px_1fr_110px_100px_80px_90px_80px] bg-gray-50/80 border-b border-gray-200/60">
+                            <button onClick={() => handleSort('urgencyScore')} className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5 hover:text-gray-600 transition-colors">
                                 Urgency <SortIcon field="urgencyScore" />
                             </button>
-                            <div className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5">ID</div>
-                            <div className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5">Title</div>
-                            <div className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5">Category</div>
-                            <button onClick={() => handleSort('status')} className="text-left text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5 hover:text-[#52525b]">
+                            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5">ID</div>
+                            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5">Title</div>
+                            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5">Category</div>
+                            <button onClick={() => handleSort('status')} className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5 hover:text-gray-600 transition-colors">
                                 Status <SortIcon field="status" />
                             </button>
-                            <button onClick={() => handleSort('createdAt')} className="text-left text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5 hover:text-[#52525b]">
+                            <button onClick={() => handleSort('createdAt')} className="text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5 hover:text-gray-600 transition-colors">
                                 Date <SortIcon field="createdAt" />
                             </button>
-                            <div className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5">Officer</div>
-                            <div className="text-[11px] font-semibold text-[#a1a1aa] uppercase tracking-wide px-3.5 py-2.5">Actions</div>
+                            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5">Officer</div>
+                            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3.5 py-2.5">Actions</div>
                         </div>
 
                         {/* Rows */}
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
                             <div
                                 key={c._id}
                                 onClick={() => openPanel(c)}
-                                className={`lg:grid lg:grid-cols-[90px_110px_1fr_110px_100px_80px_90px_80px] items-center border-b border-[#e8e8e6] hover:bg-[#fafaf9] cursor-pointer transition-colors border-l-2 ${urgencyBorder(c.urgencyLabel)}`}
+                                className={`lg:grid lg:grid-cols-[90px_110px_1fr_110px_100px_80px_90px_80px] items-center border-b border-gray-100 hover:bg-primary-50/30 cursor-pointer transition-all duration-150 border-l-2 ${urgencyBorder(c.urgencyLabel)}`}
                                 style={{ animation: `fadeIn 0.2s ease both`, animationDelay: `${idx * 0.04}s` }}
                             >
                                 {/* Mobile */}
@@ -211,10 +211,10 @@ export default function AdminDashboard() {
                                         <UrgencyBadge label={c.urgencyLabel} />
                                         <StatusBadge status={c.status} />
                                     </div>
-                                    <p className="text-[13px] font-medium text-[#18181b]">{c.title}</p>
+                                    <p className="text-[13px] font-medium text-gray-900">{c.title}</p>
                                     <div className="flex items-center justify-between">
-                                        <span className="font-mono text-[10.5px] text-[#a1a1aa]">{c.trackingId}</span>
-                                        <span className="text-[10.5px] text-[#a1a1aa]">
+                                        <span className="font-mono text-[10.5px] text-gray-400">{c.trackingId}</span>
+                                        <span className="text-[10.5px] text-gray-400">
                                             {new Date(c.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                                         </span>
                                     </div>
@@ -222,31 +222,31 @@ export default function AdminDashboard() {
 
                                 {/* Desktop */}
                                 <div className="hidden lg:block px-3.5 py-3"><UrgencyBadge label={c.urgencyLabel} /></div>
-                                <div className="hidden lg:block px-3.5 py-3 font-mono text-[10.5px] text-[#a1a1aa]">{c.trackingId}</div>
-                                <div className="hidden lg:block px-3.5 py-3 text-[13px] font-medium text-[#18181b] truncate">{c.title}</div>
+                                <div className="hidden lg:block px-3.5 py-3 font-mono text-[10.5px] text-gray-400">{c.trackingId}</div>
+                                <div className="hidden lg:block px-3.5 py-3 text-[13px] font-medium text-gray-900 truncate">{c.title}</div>
                                 <div className="hidden lg:block px-3.5 py-3">
-                                    <span className="text-[11px] bg-[#f9f9f8] border border-[#e8e8e6] rounded px-1.5 py-0.5 text-[#52525b]">{c.category}</span>
+                                    <span className="text-[11px] bg-gray-50 border border-gray-200 rounded-md px-1.5 py-0.5 text-gray-500">{c.category}</span>
                                 </div>
                                 <div className="hidden lg:block px-3.5 py-3"><StatusBadge status={c.status} /></div>
-                                <div className="hidden lg:block px-3.5 py-3 text-[11px] text-[#a1a1aa]">
+                                <div className="hidden lg:block px-3.5 py-3 text-[11px] text-gray-400">
                                     {new Date(c.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
                                 </div>
-                                <div className="hidden lg:block px-3.5 py-3 text-[11px] text-[#52525b] truncate">
-                                    {c.officer || <span className="italic text-[#a1a1aa]">—</span>}
+                                <div className="hidden lg:block px-3.5 py-3 text-[11px] text-gray-500 truncate">
+                                    {c.officer || <span className="italic text-gray-300">—</span>}
                                 </div>
                                 <div className="hidden lg:flex px-3.5 py-3 items-center gap-1">
                                     <button onClick={(e) => { e.stopPropagation(); openPanel(c); }}
-                                        className="w-7 h-7 rounded border border-[#e8e8e6] bg-transparent flex items-center justify-center text-[#a1a1aa] hover:bg-[#f9f9f8] hover:text-[#18181b] hover:border-[#d8d8d4] transition-colors">
+                                        className="w-7 h-7 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-all duration-200">
                                         <Eye size={13} />
                                     </button>
                                     {isAdminRole && (
                                         <>
                                             <button onClick={(e) => e.stopPropagation()}
-                                                className="w-7 h-7 rounded border border-[#e8e8e6] bg-transparent flex items-center justify-center text-[#a1a1aa] hover:bg-[#f9f9f8] hover:text-[#18181b] hover:border-[#d8d8d4] transition-colors">
+                                                className="w-7 h-7 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-all duration-200">
                                                 <UserPlus size={13} />
                                             </button>
                                             <button onClick={(e) => e.stopPropagation()}
-                                                className="w-7 h-7 rounded border border-[#e8e8e6] bg-transparent flex items-center justify-center text-[#a1a1aa] hover:bg-[#f9f9f8] hover:text-[#18181b] hover:border-[#d8d8d4] transition-colors">
+                                                className="w-7 h-7 rounded-lg border border-gray-200 bg-white flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-all duration-200">
                                                 <MoreHorizontal size={13} />
                                             </button>
                                         </>
@@ -256,17 +256,17 @@ export default function AdminDashboard() {
                         ))}
 
                         {/* Pagination */}
-                        <div className="flex items-center justify-between px-4 py-3 border-t border-[#e8e8e6] bg-[#f9f9f8]">
-                            <span className="text-[12px] text-[#a1a1aa]">
+                        <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50/80">
+                            <span className="text-[12px] text-gray-400">
                                 Showing {Math.min((page - 1) * PAGE_SIZE + 1, filteredComplaints.length)}–{Math.min(page * PAGE_SIZE, filteredComplaints.length)} of {filteredComplaints.length}
                             </span>
                             <div className="flex gap-1.5">
                                 <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}
-                                    className="h-7 px-2.5 border border-[#d8d8d4] rounded bg-white text-[12px] font-medium text-[#52525b] hover:border-[#18181b] hover:text-[#18181b] disabled:opacity-40 disabled:pointer-events-none transition-colors">
+                                    className="btn-secondary h-7 px-3 text-[12px] disabled:opacity-40 disabled:pointer-events-none">
                                     Prev
                                 </button>
                                 <button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page >= totalPages}
-                                    className="h-7 px-2.5 border border-[#d8d8d4] rounded bg-white text-[12px] font-medium text-[#52525b] hover:border-[#18181b] hover:text-[#18181b] disabled:opacity-40 disabled:pointer-events-none transition-colors">
+                                    className="btn-secondary h-7 px-3 text-[12px] disabled:opacity-40 disabled:pointer-events-none">
                                     Next
                                 </button>
                             </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Search, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, Loader2, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../../components/citizen/Navbar';
 import ChatbotWidget from '../../components/citizen/ChatbotWidget';
@@ -17,10 +18,8 @@ export default function TrackComplaint() {
     const handleTrack = async (e) => {
         e.preventDefault();
         if (!trackingId.trim()) return;
-
         setLoading(true);
         setResult(null);
-
         try {
             const res = await api.get(`/api/complaints/track/${trackingId}`);
             setResult(res.data);
@@ -33,110 +32,79 @@ export default function TrackComplaint() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F9FAFB] font-sans">
+        <div className="min-h-screen bg-background font-sans">
             <Navbar />
 
-            {/* Blue Top Background */}
-            <div className="absolute top-0 inset-x-0 h-80 bg-gradient-to-b from-[#EFF6FF] to-transparent -z-10 pointer-events-none" />
-
-            <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
-                <div className="text-center mb-10 max-w-xl mx-auto">
-                    <h1 className="text-3xl font-bold text-[#111827] tracking-tight mb-3">Track Ticket Status</h1>
-                    <p className="text-[15px] text-[#4B5563] leading-relaxed">
-                        Enter your unique 12-character Ticket ID below to track real-time routing, assignment, and resolution progress.
-                    </p>
+            <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+                {/* Breadcrumb */}
+                <div className="flex items-center gap-1.5 text-[12px] text-gray-400 mb-5">
+                    <Link to="/" className="hover:text-gray-600 transition-colors duration-200">Home</Link>
+                    <ChevronRight className="w-3 h-3" />
+                    <span className="text-gray-600 font-medium">Track</span>
                 </div>
 
-                {/* Search Box */}
-                <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-6 sm:p-8 mb-8">
-                    <form onSubmit={handleTrack} className="flex flex-col sm:flex-row gap-4">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9CA3AF]" />
-                            <input
-                                type="text"
-                                value={trackingId}
-                                onChange={(e) => setTrackingId(e.target.value)}
-                                placeholder="e.g. CSV-9A8B-7C6D"
-                                required
-                                className="w-full h-12 border border-[#D1D5DB] rounded-xl pl-12 pr-4 text-[15px] font-mono uppercase tracking-wide focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all placeholder:normal-case placeholder:tracking-normal placeholder:font-sans placeholder:text-[#9CA3AF] text-[#111827] bg-[#F9FAFB] hover:bg-white shadow-sm inset-y-0"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="h-12 px-8 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-xl text-[15px] font-semibold transition-all shadow-sm flex items-center justify-center min-w-[140px] disabled:opacity-70 disabled:pointer-events-none"
-                        >
-                            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Track Status'}
-                        </button>
-                    </form>
+                <div className="mb-8">
+                    <h1 className="text-[22px] font-bold text-gray-900 tracking-tight">Track a complaint</h1>
+                    <p className="text-[14px] text-gray-500 mt-1">Enter your tracking ID to check the current status and resolution timeline.</p>
                 </div>
 
-                {/* Result Tracking View */}
+                {/* Search */}
+                <form onSubmit={handleTrack} className="flex gap-2 mb-8">
+                    <div className="relative flex-1">
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input
+                            type="text" value={trackingId} onChange={(e) => setTrackingId(e.target.value)}
+                            placeholder="e.g. CSV-9A8B-7C6D" required
+                            className="input-field pl-10 font-mono uppercase tracking-wide placeholder:normal-case placeholder:tracking-normal placeholder:font-sans"
+                        />
+                    </div>
+                    <button type="submit" disabled={loading}
+                        className="btn-primary min-w-[100px]">
+                        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Track'}
+                    </button>
+                </form>
+
+                {/* Result */}
                 <AnimatePresence>
                     {result && (
                         <motion.div
-                            initial={{ opacity: 0, y: 15 }}
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4 }}
-                            className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-sm"
+                            transition={{ duration: 0.3 }}
+                            className="card overflow-hidden"
                         >
-                            {/* Header block */}
-                            <div className="px-6 py-5 border-b border-[#E5E7EB] bg-[#F8FAFC]">
-                                <div className="flex flex-wrap items-center justify-between gap-4">
-                                    <div className="flex items-center gap-3">
-                                        <span className="font-mono text-[13px] font-bold tracking-widest text-[#111827]">
-                                            {result.trackingId}
-                                        </span>
-                                        <div className="h-4 w-px bg-[#D1D5DB]" />
-                                        <span className="text-[13px] text-[#6B7280]">
-                                            Reported on {new Date(result.createdAt).toLocaleDateString('en-IN', {
-                                                day: 'numeric',
-                                                month: 'short',
-                                                year: 'numeric'
-                                            })}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <UrgencyBadge label={result.urgencyLabel} />
-                                        <StatusBadge status={result.status} />
-                                    </div>
+                            {/* Header */}
+                            <div className="px-5 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 bg-gray-50/50">
+                                <div className="flex items-center gap-2.5">
+                                    <span className="font-mono text-[12px] font-semibold text-gray-900">{result.trackingId}</span>
+                                    <span className="text-gray-300">·</span>
+                                    <span className="text-[12px] text-gray-500">
+                                        {new Date(result.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <UrgencyBadge label={result.urgencyLabel} />
+                                    <StatusBadge status={result.status} />
                                 </div>
                             </div>
 
-                            <div className="p-6 grid grid-cols-1 md:grid-cols-5 gap-8">
-                                {/* Left Col: Static Data */}
-                                <div className="md:col-span-2 space-y-6">
-                                    <div>
-                                        <p className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Complaint Title</p>
-                                        <h2 className="text-[16px] font-bold text-[#111827] leading-snug">{result.title}</h2>
-                                    </div>
+                            <div className="p-5 space-y-5">
+                                {/* Details */}
+                                <div>
+                                    <h2 className="text-[16px] font-semibold text-gray-900 mb-1.5">{result.title}</h2>
                                     {result.description && (
-                                        <div>
-                                            <p className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Description</p>
-                                            <p className="text-[14px] text-[#4B5563] leading-relaxed">{result.description}</p>
-                                        </div>
+                                        <p className="text-[13px] text-gray-500 leading-relaxed">{result.description}</p>
                                     )}
-                                    <div>
-                                        <p className="text-[11px] font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Attributes</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="text-[12px] font-medium bg-[#F3F4F6] text-[#374151] px-2.5 py-1 rounded inline-flex">
-                                                {result.category}
-                                            </span>
-                                            <span className="text-[12px] font-medium bg-[#EFF6FF] text-[#1D4ED8] px-2.5 py-1 rounded inline-flex">
-                                                Dept: {result.department}
-                                            </span>
-                                        </div>
+                                    <div className="flex flex-wrap gap-1.5 mt-3">
+                                        <span className="badge bg-gray-100 text-gray-600 border border-gray-200">{result.category}</span>
+                                        <span className="badge bg-primary-50 text-primary-700 border border-primary-200">{result.department}</span>
                                     </div>
                                 </div>
 
-                                {/* Right Col: Timeline */}
-                                <div className="md:col-span-3">
-                                    <div className="bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-5 h-full">
-                                        <h3 className="text-[13px] font-semibold text-[#374151] uppercase tracking-wider mb-5 border-b border-[#E5E7EB] pb-3">Resolution Timeline</h3>
-                                        <div className="pl-1">
-                                            <StatusTimeline statusHistory={result.statusHistory || []} />
-                                        </div>
-                                    </div>
+                                {/* Timeline */}
+                                <div className="border-t border-gray-100 pt-5">
+                                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-4">Resolution Timeline</p>
+                                    <StatusTimeline statusHistory={result.statusHistory || []} />
                                 </div>
                             </div>
                         </motion.div>
