@@ -48,12 +48,12 @@ export default function App() {
 
                 {/* Admin/Officer protected */}
                 <Route path="/admin/dashboard" element={
-                    <ProtectedRoute redirectTo="/admin/login">
+                    <ProtectedRoute redirectTo="/admin/login" allowedRoles={["admin", "officer"]}>
                         <AdminDashboard />
                     </ProtectedRoute>
                 } />
                 <Route path="/admin/analytics" element={
-                    <ProtectedRoute redirectTo="/admin/login">
+                    <ProtectedRoute redirectTo="/admin/login" allowedRoles={["admin", "officer"]}>
                         <Analytics />
                     </ProtectedRoute>
                 } />
