@@ -1,138 +1,68 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
-import { useAuth } from './store/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider, useAuth } from "./store/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-import LandingPage from './pages/LandingPage';
-import AuthPage from './pages/citizen/AuthPage';
-import SubmitComplaint from './pages/citizen/SubmitComplaint';
-import MyComplaints from './pages/citizen/MyComplaints';
-import TrackComplaint from './pages/citizen/TrackComplaint';
-import AdminLogin from './pages/admin/AdminLogin';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import Analytics from './pages/admin/Analytics';
+// Pages
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import SubmitComplaint from "./pages/citizen/SubmitComplaint";
+import MyComplaints from "./pages/citizen/MyComplaints";
+import TrackComplaint from "./pages/citizen/TrackComplaint";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import Analytics from "./pages/admin/Analytics";
 
-function ProtectedRoute({ children, allowedRoles }) {
-    const { token, user, loading } = useAuth();
-
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
-    if (!token) return <Navigate to="/login" replace />;
-    if (allowedRoles && user && !allowedRoles.includes(user.role)) return <Navigate to="/" replace />;
-    return children;
-}
-
-function AdminRoute({ children }) {
-    const { user, token, loading } = useAuth();
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
-    if (!token || !user) return <Navigate to="/admin/login" replace />;
-    if (user.role !== 'admin' && user.role !== 'officer') return <Navigate to="/" replace />;
-    return children;
-}
-
-function AnimatedPage({ children }) {
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-        >
-            {children}
-        </motion.div>
-    );
-}
+// Smart redirect — send logged-in users to right place
+const HomeRedirect = () => {
+    const { isAuthenticated, user } = useAuth();
+    if (!isAuthenticated) return <LandingPage />;
+    if (user?.role === "admin" || user?.role === "officer") return <Navigate to="/admin/dashboard" replace />;
+    return <Navigate to="/submit" replace />;
+};
 
 export default function App() {
-    const location = useLocation();
-
     return (
-        <>
-            <Toaster position="top-right" />
-            <AnimatePresence mode="wait" initial={false}>
-                <Routes location={location} key={location.pathname}>
-                    <Route
-                        path="/"
-                        element={
-                            <AnimatedPage>
-                                <LandingPage />
-                            </AnimatedPage>
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <AnimatedPage>
-                                <AuthPage />
-                            </AnimatedPage>
-                        }
-                    />
-                    <Route
-                        path="/register"
-                        element={
-                            <AnimatedPage>
-                                <AuthPage defaultTab="register" />
-                            </AnimatedPage>
-                        }
-                    />
-                    <Route
-                        path="/submit"
-                        element={
-                            <ProtectedRoute allowedRoles={['citizen']}>
-                                <AnimatedPage>
-                                    <SubmitComplaint />
-                                </AnimatedPage>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/my-complaints"
-                        element={
-                            <ProtectedRoute allowedRoles={['citizen']}>
-                                <AnimatedPage>
-                                    <MyComplaints />
-                                </AnimatedPage>
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/track"
-                        element={
-                            <AnimatedPage>
-                                <TrackComplaint />
-                            </AnimatedPage>
-                        }
-                    />
-                    <Route
-                        path="/admin/login"
-                        element={
-                            <AnimatedPage>
-                                <AdminLogin />
-                            </AnimatedPage>
-                        }
-                    />
-                    <Route
-                        path="/admin/dashboard"
-                        element={
-                            <AdminRoute>
-                                <AnimatedPage>
-                                    <AdminDashboard />
-                                </AnimatedPage>
-                            </AdminRoute>
-                        }
-                    />
-                    <Route
-                        path="/admin/analytics"
-                        element={
-                            <AdminRoute>
-                                <AnimatedPage>
-                                    <Analytics />
-                                </AnimatedPage>
-                            </AdminRoute>
-                        }
-                    />
+        <AuthProvider>
+            <BrowserRouter>
+                <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+                <Routes>
+                    {/* Public */}
+                    <Route path="/" element={<HomeRedirect />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/track" element={<TrackComplaint />} />
+                    <Route path="/admin/login" element={<AdminLogin />} />
+
+                    {/* Citizen protected */}
+                    <Route path="/submit" element={
+                        <ProtectedRoute requiredRole="citizen">
+                            <SubmitComplaint />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/my-complaints" element={
+                        <ProtectedRoute requiredRole="citizen">
+                            <MyComplaints />
+                        </ProtectedRoute>
+                    } />
+
+                    {/* Admin/Officer protected */}
+                    <Route path="/admin/dashboard" element={
+                        <ProtectedRoute redirectTo="/admin/login">
+                            <AdminDashboard />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/admin/analytics" element={
+                        <ProtectedRoute redirectTo="/admin/login">
+                            <Analytics />
+                        </ProtectedRoute>
+                    } />
+
+                    {/* Catch all */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
-            </AnimatePresence>
-        </>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }

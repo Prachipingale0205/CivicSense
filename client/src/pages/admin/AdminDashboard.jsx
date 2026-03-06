@@ -41,8 +41,9 @@ export default function AdminDashboard() {
     const fetchComplaints = async () => {
         setLoading(true);
         try {
-            const res = await api.get('/api/admin/complaints');
-            setComplaints(res.data.data?.complaints || res.data.data || []);
+            const res = await api.get("/api/admin/complaints?sortBy=urgencyScore&order=desc&limit=50");
+            const { complaints } = res.data.data;
+            setComplaints(complaints);
         } catch (err) {
             toast.error('Failed to load complaints.');
         } finally {

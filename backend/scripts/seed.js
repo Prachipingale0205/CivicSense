@@ -73,12 +73,19 @@ async function seedComplaints() {
 
   await connectDB();
 
-  const user = await User.findOne();
+  const users = [
+    { name: "Demo Citizen", email: "citizen@civicsense.com", password: "demo123", role: "citizen" },
+    { name: "Demo Officer", email: "officer@civicsense.com", password: "demo123", role: "officer" },
+    { name: "Bhushan Admin", email: "admin@civicsense.com", password: "demo123", role: "admin" },
+  ];
 
-  if (!user) {
-    console.log("No user found. Create a user first.");
-    process.exit(1);
+  await User.deleteMany({ email: { $in: users.map(u => u.email) } });
+  for (const u of users) {
+    await User.create(u);
   }
+  console.log("Seeded demo users");
+
+  const user = await User.findOne({ email: "citizen@civicsense.com" });
 
   await Complaint.deleteMany({});
   console.log("Old complaints removed");

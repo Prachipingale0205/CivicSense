@@ -37,8 +37,8 @@ export default function ChatbotWidget() {
             .map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text }));
 
         try {
-            const res = await api.post('/api/complaints/chat', { message: userMsg, history });
-            const reply = res.data.data?.reply || res.data.reply || res.data.data?.message || 'No response received.';
+            const res = await api.post("/api/complaints/chat", { message: userMsg, history });
+            const reply = res.data.data.reply;
             setMessages(prev => [...prev, { role: 'bot', text: reply }]);
         } catch (err) {
             const status = err.response?.status;

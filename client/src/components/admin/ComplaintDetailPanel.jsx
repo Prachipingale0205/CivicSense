@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Loader2, MapPin } from 'lucide-react';
 import { useAuth } from '../../store/AuthContext';
@@ -12,19 +12,42 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
     const { user } = useAuth();
     const isAdminRole = user?.role === 'admin';
     const [status, setStatus] = useState(complaint?.status || 'Submitted');
+    const [officerId, setOfficerId] = useState('');
+    const [officers, setOfficers] = useState([]);
     const [updating, setUpdating] = useState(false);
+
+    useEffect(() => {
+        if (complaint?.status) {
+            setStatus(complaint.status);
+            setNote("");
+            setOfficerId(complaint.officer?._id || complaint.officer || '');
+        }
+    }, [complaint?._id]);
+
+    useEffect(() => {
+        if (isOpen && isAdminRole) {
+            api.get('/api/admin/officers')
+                .then(res => setOfficers(res.data.data?.officers || res.data.data || []))
+                .catch(() => { });
+        }
+    }, [isOpen, isAdminRole]);
 
     if (!complaint) return null;
 
     const handleStatusUpdate = async () => {
         setUpdating(true);
         try {
+            if (isAdminRole && officerId && officerId !== (complaint.officer?._id || complaint.officer)) {
+                await api.put(`/api/admin/complaints/${complaint._id}/assign`, { officerId }).catch(() => { });
+            }
+
             const res = await api.put(`/api/admin/complaints/${complaint._id}/status`, {
                 status,
-                note: `Status updated to ${status}`,
+                note: `Status updated to ${status}`
             });
+
             toast.success('Status updated successfully');
-            onStatusUpdate?.(res.data.data?.complaint || res.data.data || res.data);
+            onStatusUpdate(res.data.data?.complaint || res.data.data || res.data);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Failed to update status');
         } finally {
@@ -152,6 +175,21 @@ export default function ComplaintDetailPanel({ complaint, isOpen, onClose, onSta
                                     </button>
                                 </div>
                             </div>
+                            {isAdminRole && (
+                                <div className="flex flex-col gap-1.5 mb-3">
+                                    <label className="text-[12px] font-semibold text-[#4B5563]">Assign Officer</label>
+                                    <select
+                                        value={officerId}
+                                        onChange={(e) => setOfficerId(e.target.value)}
+                                        className="w-full h-10 border border-[#D1D5DB] rounded-lg px-3 text-[14px] text-[#111827] focus:border-[#2563EB] focus:ring-4 focus:ring-blue-500/10 focus:outline-none bg-white shadow-sm transition-all"
+                                    >
+                                        <option value="">-- Unassigned --</option>
+                                        {officers.map(off => (
+                                            <option key={off._id} value={off._id}>{off.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
                             {isAdminRole && (
                                 <button className="w-full h-9 bg-white border border-[#FECACA] hover:bg-[#FEF2F2] text-[#DC2626] rounded-lg text-[13px] font-semibold transition-colors shadow-sm">
                                     Reject & Internal Dismiss

@@ -1,0 +1,351 @@
+﻿
+[1] Health Check
+{
+    "status":  "CivicSense API running",
+    "environment":  "production",
+    "db":  "connected",
+    "timestamp":  "2026-03-06T01:42:46.802Z"
+}
+
+[2] Register Citizen
+Register 
+Failed/Skipped (Might 
+exist): The remote 
+server returned an 
+error: (409) Conflict.
+
+[3] Login Citizen
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:18 char:10
++ $login = 
+Invoke-RestMethod -Uri 
+"$base/api/auth/login" 
+-Method POST - ...
++          ~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+You cannot call a 
+method on a 
+null-valued expression.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:20 char:25
++ Write-Host "Token 
+OK: $($citizenToken.Sub
+string(0,20))..."
++                      
+   ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (:) [], Ru   
+ ntimeException
+    + FullyQualifiedEr 
+   rorId : InvokeMeth  
+  odOnNull
+ 
+Token OK: ...
+
+[4] Submit Complaint
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:26 char:14
++ ... complaint = 
+Invoke-RestMethod -Uri 
+"$base/api/complaints" 
+-Method POS ...
++                 ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+Tracking ID: 
+
+[5] Track Complaint 
+(public)
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(404) Not Found.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:33 char:1
++ Invoke-RestMethod 
+-Uri "$base/api/complai
+nts/$trackingId" | 
+ConvertTo ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+
+[6] My Complaints
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:37 char:1
++ Invoke-RestMethod 
+-Uri "$base/api/complai
+nts/user" -Headers 
+$headers  ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+
+[7] Login Admin
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:41 char:15
++ ... dminLogin = 
+Invoke-RestMethod -Uri 
+"$base/api/auth/login" 
+-Method POS ...
++                 ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+You cannot call a 
+method on a 
+null-valued expression.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:43 char:31
++ Write-Host "Admin 
+Token OK: $($adminToken
+.Substring(0,20))..."
++                      
+         ~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (:) [], Ru   
+ ntimeException
+    + FullyQualifiedEr 
+   rorId : InvokeMeth  
+  odOnNull
+ 
+Admin Token OK: ...
+
+[8] Admin Dashboard 
+Complaints
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:48 char:20
++ ... omplaints = 
+Invoke-RestMethod -Uri 
+"$base/api/admin/compla
+ints?sortBy ...
++                 ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+
+[9] Update Status to 
+In Progress
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:54 char:1
++ Invoke-RestMethod 
+-Uri "$base/api/admin/c
+omplaints/$trackingId/s
+tatus ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+
+[10] Analytics 
+Dashboard
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:58 char:14
++ ... analytics = 
+Invoke-RestMethod -Uri 
+"$base/api/admin/analyt
+ics" -Heade ...
++                 ~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 
+
+[11] Chatbot
+Invoke-RestMethod : 
+The remote server 
+returned an error: 
+(401) Unauthorized.
+At C:\Users\Smart\OneDr
+ive\Desktop\codecraze\C
+ivicSense\backend\test-
+api.ps1:64 char:1
++ Invoke-RestMethod 
+-Uri "$base/api/complai
+nts/chat" -Method POST 
+-Cont ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : InvalidOpe  
+  ration: (System.Ne   
+ t.HttpWebRequest:H    
+ttpWebRequest) [In    
+voke-RestMethod],     
+WebException
+    + FullyQualifiedEr 
+   rorId : WebCmdletW  
+  ebResponseExceptio   
+ n,Microsoft.PowerS    
+hell.Commands.Invo    
+keRestMethodComman    d
+ 

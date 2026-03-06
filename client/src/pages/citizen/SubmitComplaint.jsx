@@ -51,11 +51,9 @@ export default function SubmitComplaint() {
         setResult(null);
 
         try {
-            const payload = { title, description, location };
-            if (category) payload.category = category;
-
-            const res = await api.post('/api/complaints', payload);
-            setResult(res.data.data || res.data);
+            const res = await api.post("/api/complaints", { title, description, location });
+            const data = res.data.data;
+            setResult(data);
             toast.success('Complaint submitted successfully!');
 
             setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);

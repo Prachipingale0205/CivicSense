@@ -1,0 +1,536 @@
+﻿
+[1] Health Check
+{
+    "status":  "CivicSense API running",
+    "environment":  "production",
+    "db":  "connected",
+    "timestamp":  "2026-03-06T01:45:17.889Z"
+}
+
+[2] Register Citizen
+Register 
+Failed/Skipped (Might 
+exist): The remote 
+server returned an 
+error: (409) Conflict.
+
+[3] Login Citizen
+Token OK: 
+eyJhbGciOiJIUzI1NiIs...
+
+[4] Submit Complaint
+{
+    "success":  true,
+    "message":  "Complaint submitted and analyzed successfully",
+    "data":  {
+                 "trackingId":  "GRV-MME8FRXW-S1CJ",
+                 "category":  "Roads \u0026 Infrastructure",
+                 "department":  "Public Works Department",
+                 "urgencyScore":  9,
+                 "urgencyLabel":  "Critical",
+                 "sentiment":  "Urgent",
+                 "aiSummary":  "The road near Government Primary School has massive potholes causing daily accidents, with three vehicles damaged this week.",
+                 "status":  "Submitted",
+                 "createdAt":  "2026-03-06T01:45:20.948Z"
+             }
+}
+Tracking ID: 
+GRV-MME8FRXW-S1CJ
+
+[5] Track Complaint 
+(public)
+{
+    "success":  true,
+    "data":  {
+                 "complaint":  {
+                                   "_id":  "69aa31b07faf28ebbe519afb",
+                                   "title":  "Roads broken near school zone",
+                                   "description":  "The road near Government Primary School in Sector 5 has massive potholes causing accidents daily. Three vehicles damaged this week alone.",
+                                   "location":  "Sector 5, Shirpur",
+                                   "category":  "Roads \u0026 Infrastructure",
+                                   "department":  "Public Works Department",
+                                   "urgencyScore":  9,
+                                   "urgencyLabel":  "Critical",
+                                   "sentiment":  "Urgent",
+                                   "aiSummary":  "The road near Government Primary School has massive potholes causing daily accidents, with three vehicles damaged this week.",
+                                   "status":  "Submitted",
+                                   "statusHistory":  [
+                                                         {
+                                                             "status":  "Submitted",
+                                                             "note":  "Complaint received and analyzed by CivicSense AI",
+                                                             "updatedBy":  null,
+                                                             "timestamp":  "2026-03-06T01:45:20.944Z"
+                                                         }
+                                                     ],
+                                   "citizen":  {
+                                                   "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                                   "name":  "Demo Citizen"
+                                               },
+                                   "assignedOfficer":  null,
+                                   "resolvedAt":  null,
+                                   "createdAt":  "2026-03-06T01:45:20.948Z",
+                                   "updatedAt":  "2026-03-06T01:45:20.948Z",
+                                   "trackingId":  "GRV-MME8FRXW-S1CJ",
+                                   "__v":  0
+                               }
+             }
+}
+
+[6] My Complaints
+{
+    "success":  true,
+    "count":  21,
+    "data":  {
+                 "complaints":  [
+                                    {
+                                        "_id":  "69aa31b07faf28ebbe519afb",
+                                        "title":  "Roads broken near school zone",
+                                        "category":  "Roads \u0026 Infrastructure",
+                                        "department":  "Public Works Department",
+                                        "urgencyScore":  9,
+                                        "urgencyLabel":  "Critical",
+                                        "status":  "Submitted",
+                                        "createdAt":  "2026-03-06T01:45:20.948Z",
+                                        "trackingId":  "GRV-MME8FRXW-S1CJ"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c425",
+                                        "title":  "Garbage not collected for a week",
+                                        "category":  "Sanitation \u0026 Waste",
+                                        "department":  "Municipal Sanitation Dept",
+                                        "urgencyScore":  7,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Under Review",
+                                        "createdAt":  "2026-03-06T01:43:51.182Z",
+                                        "trackingId":  "GRV-MME8DUOE-1X73"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c423",
+                                        "title":  "Streetlights not working near market",
+                                        "category":  "Electricity",
+                                        "department":  "Electricity Board",
+                                        "urgencyScore":  6,
+                                        "urgencyLabel":  "Medium",
+                                        "status":  "In Progress",
+                                        "createdAt":  "2026-03-06T01:43:51.163Z",
+                                        "trackingId":  "GRV-MME8DUNV-D4JA"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c421",
+                                        "title":  "Massive potholes on main highway",
+                                        "category":  "Roads \u0026 Infrastructure",
+                                        "department":  "Public Works Department",
+                                        "urgencyScore":  8,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Resolved",
+                                        "createdAt":  "2026-03-06T01:43:51.145Z",
+                                        "trackingId":  "GRV-MME8DUND-XEPJ"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c41f",
+                                        "title":  "No water supply in Sector 5 for 3 days",
+                                        "category":  "Water Supply",
+                                        "department":  "Water \u0026 Sanitation Board",
+                                        "urgencyScore":  9,
+                                        "urgencyLabel":  "Critical",
+                                        "status":  "In Progress",
+                                        "createdAt":  "2026-03-06T01:43:51.126Z",
+                                        "trackingId":  "GRV-MME8DUMU-17XW"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c41d",
+                                        "title":  "Garbage not collected for a week",
+                                        "category":  "Sanitation \u0026 Waste",
+                                        "department":  "Municipal Sanitation Dept",
+                                        "urgencyScore":  7,
+                                        "urgencyLabel":  "High",
+                                        "status":  "In Progress",
+                                        "createdAt":  "2026-03-06T01:43:51.108Z",
+                                        "trackingId":  "GRV-MME8DUMC-ONXQ"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c41b",
+                                        "title":  "Streetlights not working near market",
+                                        "category":  "Electricity",
+                                        "department":  "Electricity Board",
+                                        "urgencyScore":  6,
+                                        "urgencyLabel":  "Medium",
+                                        "status":  "Under Review",
+                                        "createdAt":  "2026-03-06T01:43:51.091Z",
+                                        "trackingId":  "GRV-MME8DULV-C79T"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c419",
+                                        "title":  "Massive potholes on main highway",
+                                        "category":  "Roads \u0026 Infrastructure",
+                                        "department":  "Public Works Department",
+                                        "urgencyScore":  8,
+                                        "urgencyLabel":  "High",
+                                        "status":  "In Progress",
+                                        "createdAt":  "2026-03-06T01:43:51.073Z",
+                                        "trackingId":  "GRV-MME8DULD-O56V"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c417",
+                                        "title":  "No water supply in Sector 5 for 3 days",
+                                        "category":  "Water Supply",
+                                        "department":  "Water \u0026 Sanitation Board",
+                                        "urgencyScore":  9,
+                                        "urgencyLabel":  "Critical",
+                                        "status":  "Submitted",
+                                        "createdAt":  "2026-03-06T01:43:51.055Z",
+                                        "trackingId":  "GRV-MME8DUKV-0ECV"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c415",
+                                        "title":  "Garbage not collected for a week",
+                                        "category":  "Sanitation \u0026 Waste",
+                                        "department":  "Municipal Sanitation Dept",
+                                        "urgencyScore":  7,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Submitted",
+                                        "createdAt":  "2026-03-06T01:43:51.037Z",
+                                        "trackingId":  "GRV-MME8DUKD-ZN5F"
+                                    },
+                                    {
+                                        "_id":  "69aa3157c9ee1d3e6ac3c413",
+                                        "title":  "Streetlights not working near market",
+                                        "category":  "Electricity",
+                                        "department":  "Electricity Board",
+                                        "urgencyScore":  6,
+                                        "urgencyLabel":  "Medium",
+                                        "status":  "Under Review",
+                                        "createdAt":  "2026-03-06T01:43:51.018Z",
+                                        "trackingId":  "GRV-MME8DUJU-SXXQ"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c411",
+                                        "title":  "Massive potholes on main highway",
+                                        "category":  "Roads \u0026 Infrastructure",
+                                        "department":  "Public Works Department",
+                                        "urgencyScore":  8,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Submitted",
+                                        "createdAt":  "2026-03-06T01:43:50.999Z",
+                                        "trackingId":  "GRV-MME8DUJB-GG2Q"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c40f",
+                                        "title":  "No water supply in Sector 5 for 3 days",
+                                        "category":  "Water Supply",
+                                        "department":  "Water \u0026 Sanitation Board",
+                                        "urgencyScore":  9,
+                                        "urgencyLabel":  "Critical",
+                                        "status":  "Resolved",
+                                        "createdAt":  "2026-03-06T01:43:50.981Z",
+                                        "trackingId":  "GRV-MME8DUIT-W4UU"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c40d",
+                                        "title":  "Garbage not collected for a week",
+                                        "category":  "Sanitation \u0026 Waste",
+                                        "department":  "Municipal Sanitation Dept",
+                                        "urgencyScore":  7,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Submitted",
+                                        "createdAt":  "2026-03-06T01:43:50.964Z",
+                                        "trackingId":  "GRV-MME8DUIC-ZC0B"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c40b",
+                                        "title":  "Streetlights not working near market",
+                                        "category":  "Electricity",
+                                        "department":  "Electricity Board",
+                                        "urgencyScore":  6,
+                                        "urgencyLabel":  "Medium",
+                                        "status":  "Under Review",
+                                        "createdAt":  "2026-03-06T01:43:50.949Z",
+                                        "trackingId":  "GRV-MME8DUHX-TID4"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c409",
+                                        "title":  "Massive potholes on main highway",
+                                        "category":  "Roads \u0026 Infrastructure",
+                                        "department":  "Public Works Department",
+                                        "urgencyScore":  8,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Under Review",
+                                        "createdAt":  "2026-03-06T01:43:50.932Z",
+                                        "trackingId":  "GRV-MME8DUHG-PLUG"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c407",
+                                        "title":  "No water supply in Sector 5 for 3 days",
+                                        "category":  "Water Supply",
+                                        "department":  "Water \u0026 Sanitation Board",
+                                        "urgencyScore":  9,
+                                        "urgencyLabel":  "Critical",
+                                        "status":  "In Progress",
+                                        "createdAt":  "2026-03-06T01:43:50.914Z",
+                                        "trackingId":  "GRV-MME8DUGY-IZ4N"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c405",
+                                        "title":  "Garbage not collected for a week",
+                                        "category":  "Sanitation \u0026 Waste",
+                                        "department":  "Municipal Sanitation Dept",
+                                        "urgencyScore":  7,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Resolved",
+                                        "createdAt":  "2026-03-06T01:43:50.899Z",
+                                        "trackingId":  "GRV-MME8DUGJ-OSTC"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c403",
+                                        "title":  "Streetlights not working near market",
+                                        "category":  "Electricity",
+                                        "department":  "Electricity Board",
+                                        "urgencyScore":  6,
+                                        "urgencyLabel":  "Medium",
+                                        "status":  "Resolved",
+                                        "createdAt":  "2026-03-06T01:43:50.882Z",
+                                        "trackingId":  "GRV-MME8DUG2-STRA"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c401",
+                                        "title":  "Massive potholes on main highway",
+                                        "category":  "Roads \u0026 Infrastructure",
+                                        "department":  "Public Works Department",
+                                        "urgencyScore":  8,
+                                        "urgencyLabel":  "High",
+                                        "status":  "Resolved",
+                                        "createdAt":  "2026-03-06T01:43:50.866Z",
+                                        "trackingId":  "GRV-MME8DUFM-RPI3"
+                                    },
+                                    {
+                                        "_id":  "69aa3156c9ee1d3e6ac3c3ff",
+                                        "title":  "No water supply in Sector 5 for 3 days",
+                                        "category":  "Water Supply",
+                                        "department":  "Water \u0026 Sanitation Board",
+                                        "urgencyScore":  9,
+                                        "urgencyLabel":  "Critical",
+                                        "status":  "Submitted",
+                                        "createdAt":  "2026-03-06T01:43:50.848Z",
+                                        "trackingId":  "GRV-MME8DUF4-YT4X"
+                                    }
+                                ]
+             }
+}
+
+[7] Login Admin
+Admin Token OK: 
+eyJhbGciOiJIUzI1NiIs...
+
+[8] Admin Dashboard 
+Complaints
+{
+    "success":  true,
+    "complaints":  [
+                       {
+                           "_id":  "69aa31b07faf28ebbe519afb",
+                           "title":  "Roads broken near school zone",
+                           "description":  "The road near Government Primary School in Sector 5 has massive potholes causing accidents daily. Three vehicles damaged this week alone.",
+                           "location":  "Sector 5, Shirpur",
+                           "category":  "Roads \u0026 Infrastructure",
+                           "department":  "Public Works Department",
+                           "urgencyScore":  9,
+                           "urgencyLabel":  "Critical",
+                           "sentiment":  "Urgent",
+                           "aiSummary":  "The road near Government Primary School has massive potholes causing daily accidents, with three vehicles damaged this week.",
+                           "status":  "Submitted",
+                           "statusHistory":  [
+                                                 "@{status=Submitted; note=Complaint received and analyzed by CivicSense AI; updatedBy=; timestamp=2026-03-06T01:45:20.944Z}"
+                                             ],
+                           "citizen":  {
+                                           "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                           "name":  "Demo Citizen",
+                                           "email":  "citizen@civicsense.com"
+                                       },
+                           "assignedOfficer":  null,
+                           "resolvedAt":  null,
+                           "createdAt":  "2026-03-06T01:45:20.948Z",
+                           "updatedAt":  "2026-03-06T01:45:20.948Z",
+                           "trackingId":  "GRV-MME8FRXW-S1CJ"
+                       },
+                       {
+                           "_id":  "69aa3157c9ee1d3e6ac3c41f",
+                           "title":  "No water supply in Sector 5 for 3 days",
+                           "description":  "Our entire locality has not received water for three days.",
+                           "location":  "Sector 5, Shirpur",
+                           "category":  "Water Supply",
+                           "department":  "Water \u0026 Sanitation Board",
+                           "urgencyScore":  9,
+                           "urgencyLabel":  "Critical",
+                           "sentiment":  "Frustrated",
+                           "aiSummary":  "Our entire locality has not received water for three days.",
+                           "status":  "In Progress",
+                           "statusHistory":  [
+                                                 "@{status=Submitted; note=Complaint received; updatedBy=; timestamp=2026-03-06T01:43:51.124Z}",
+                                                 "@{status=In Progress; note=Status updated by admin; updatedBy=69aa3156c9ee1d3e6ac3c3f1; timestamp=2026-03-06T01:43:51.125Z}"
+                                             ],
+                           "citizen":  {
+                                           "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                           "name":  "Demo Citizen",
+                                           "email":  "citizen@civicsense.com"
+                                       },
+                           "assignedOfficer":  null,
+                           "resolvedAt":  null,
+                           "createdAt":  "2026-03-06T01:43:51.126Z",
+                           "updatedAt":  "2026-03-06T01:43:51.126Z",
+                           "trackingId":  "GRV-MME8DUMU-17XW"
+                       },
+                       {
+                           "_id":  "69aa3157c9ee1d3e6ac3c417",
+                           "title":  "No water supply in Sector 5 for 3 days",
+                           "description":  "Our entire locality has not received water for three days.",
+                           "location":  "Sector 5, Shirpur",
+                           "category":  "Water Supply",
+                           "department":  "Water \u0026 Sanitation Board",
+                           "urgencyScore":  9,
+                           "urgencyLabel":  "Critical",
+                           "sentiment":  "Frustrated",
+                           "aiSummary":  "Our entire locality has not received water for three days.",
+                           "status":  "Submitted",
+                           "statusHistory":  [
+                                                 "@{status=Submitted; note=Complaint received; updatedBy=; timestamp=2026-03-06T01:43:51.053Z}"
+                                             ],
+                           "citizen":  {
+                                           "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                           "name":  "Demo Citizen",
+                                           "email":  "citizen@civicsense.com"
+                                       },
+                           "assignedOfficer":  null,
+                           "resolvedAt":  null,
+                           "createdAt":  "2026-03-06T01:43:51.055Z",
+                           "updatedAt":  "2026-03-06T01:43:51.055Z",
+                           "trackingId":  "GRV-MME8DUKV-0ECV"
+                       },
+                       {
+                           "_id":  "69aa3156c9ee1d3e6ac3c40f",
+                           "title":  "No water supply in Sector 5 for 3 days",
+                           "description":  "Our entire locality has not received water for three days.",
+                           "location":  "Sector 5, Shirpur",
+                           "category":  "Water Supply",
+                           "department":  "Water \u0026 Sanitation Board",
+                           "urgencyScore":  9,
+                           "urgencyLabel":  "Critical",
+                           "sentiment":  "Frustrated",
+                           "aiSummary":  "Our entire locality has not received water for three days.",
+                           "status":  "Resolved",
+                           "statusHistory":  [
+                                                 "@{status=Submitted; note=Complaint received; updatedBy=; timestamp=2026-03-06T01:43:50.980Z}",
+                                                 "@{status=Resolved; note=Status updated by admin; updatedBy=69aa3156c9ee1d3e6ac3c3f1; timestamp=2026-03-06T01:43:50.980Z}"
+                                             ],
+                           "citizen":  {
+                                           "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                           "name":  "Demo Citizen",
+                                           "email":  "citizen@civicsense.com"
+                                       },
+                           "assignedOfficer":  null,
+                           "resolvedAt":  "2026-03-06T01:43:50.981Z",
+                           "createdAt":  "2026-03-06T01:43:50.981Z",
+                           "updatedAt":  "2026-03-06T01:43:50.981Z",
+                           "trackingId":  "GRV-MME8DUIT-W4UU"
+                       },
+                       {
+                           "_id":  "69aa3156c9ee1d3e6ac3c407",
+                           "title":  "No water supply in Sector 5 for 3 days",
+                           "description":  "Our entire locality has not received water for three days.",
+                           "location":  "Sector 5, Shirpur",
+                           "category":  "Water Supply",
+                           "department":  "Water \u0026 Sanitation Board",
+                           "urgencyScore":  9,
+                           "urgencyLabel":  "Critical",
+                           "sentiment":  "Frustrated",
+                           "aiSummary":  "Our entire locality has not received water for three days.",
+                           "status":  "In Progress",
+                           "statusHistory":  [
+                                                 "@{status=Submitted; note=Complaint received; updatedBy=; timestamp=2026-03-06T01:43:50.913Z}",
+                                                 "@{status=In Progress; note=Status updated by admin; updatedBy=69aa3156c9ee1d3e6ac3c3f1; timestamp=2026-03-06T01:43:50.914Z}"
+                                             ],
+                           "citizen":  {
+                                           "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                           "name":  "Demo Citizen",
+                                           "email":  "citizen@civicsense.com"
+                                       },
+                           "assignedOfficer":  null,
+                           "resolvedAt":  null,
+                           "createdAt":  "2026-03-06T01:43:50.914Z",
+                           "updatedAt":  "2026-03-06T01:43:50.914Z",
+                           "trackingId":  "GRV-MME8DUGY-IZ4N"
+                       }
+                   ],
+    "pagination":  {
+                       "total":  21,
+                       "page":  1,
+                       "limit":  5,
+                       "totalPages":  5,
+                       "hasNext":  true,
+                       "hasPrev":  false
+                   }
+}
+
+[9] Update Status to 
+In Progress
+{
+    "success":  true,
+    "message":  "Complaint status updated to \"In Progress\"",
+    "data":  {
+                 "complaint":  {
+                                   "_id":  "69aa31b07faf28ebbe519afb",
+                                   "title":  "Roads broken near school zone",
+                                   "description":  "The road near Government Primary School in Sector 5 has massive potholes causing accidents daily. Three vehicles damaged this week alone.",
+                                   "location":  "Sector 5, Shirpur",
+                                   "category":  "Roads \u0026 Infrastructure",
+                                   "department":  "Public Works Department",
+                                   "urgencyScore":  9,
+                                   "urgencyLabel":  "Critical",
+                                   "sentiment":  "Urgent",
+                                   "aiSummary":  "The road near Government Primary School has massive potholes causing daily accidents, with three vehicles damaged this week.",
+                                   "status":  "In Progress",
+                                   "statusHistory":  [
+                                                         "@{status=Submitted; note=Complaint received and analyzed by CivicSense AI; updatedBy=; timestamp=2026-03-06T01:45:20.944Z}",
+                                                         "@{status=In Progress; note=Assigned to road repair team; updatedBy=; timestamp=2026-03-06T01:45:24.083Z}"
+                                                     ],
+                                   "citizen":  {
+                                                   "_id":  "69aa3156c9ee1d3e6ac3c3f1",
+                                                   "name":  "Demo Citizen",
+                                                   "email":  "citizen@civicsense.com"
+                                               },
+                                   "assignedOfficer":  null,
+                                   "resolvedAt":  null,
+                                   "createdAt":  "2026-03-06T01:45:20.948Z",
+                                   "updatedAt":  "2026-03-06T01:45:24.084Z",
+                                   "trackingId":  "GRV-MME8FRXW-S1CJ",
+                                   "__v":  0
+                               }
+             }
+}
+
+[10] Analytics 
+Dashboard
+{
+    "total":  21,
+    "resolved":  5,
+    "pending":  16,
+    "critical":  6,
+    "resolutionRate":  24,
+    "avgResolutionTimeHours":  0
+}
+
+[11] Chatbot
+{
+    "success":  true,
+    "data":  {
+                 "reply":  "Your complaint regarding the broken roads near the school zone is currently being addressed by the Public Works Department and is marked as \"In Progress\". This means that the necessary steps are being taken to resolve the issue, and you can expect an update soon. Please be assured that the department is working to ensure the safety of the school zone as soon as possible.",
+                 "complaintContext":  {
+                                          "trackingId":  "GRV-MME8FRXW-S1CJ",
+                                          "title":  "Roads broken near school zone",
+                                          "category":  "Roads \u0026 Infrastructure",
+                                          "status":  "In Progress",
+                                          "urgencyLabel":  "Critical",
+                                          "department":  "Public Works Department",
+                                          "createdAt":  "2026-03-06T01:45:20.948Z"
+                                      }
+             }
+}

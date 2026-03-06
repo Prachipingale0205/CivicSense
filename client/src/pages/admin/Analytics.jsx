@@ -79,8 +79,9 @@ export default function Analytics() {
     const fetchAnalytics = async () => {
         setLoading(true);
         try {
-            const res = await api.get('/api/admin/analytics', { params: { range: dateRange.toLowerCase().replace(' ', '') } });
-            setData(normalizeAnalytics(res.data.data || res.data));
+            const res = await api.get("/api/admin/analytics");
+            const { kpis, byCategory, byStatus, byUrgency, byDepartment } = res.data.data;
+            setData(normalizeAnalytics({ kpis, byCategory, byStatus, byUrgency, byDepartment }));
         } catch (err) {
             toast.error('Failed to load analytics.');
         } finally {

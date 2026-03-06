@@ -21,8 +21,9 @@ export default function MyComplaints() {
     const fetchComplaints = async () => {
         setLoading(true);
         try {
-            const res = await api.get('/api/complaints/user');
-            setComplaints(res.data.data?.complaints || res.data.data || []);
+            const res = await api.get("/api/complaints/user");
+            const complaints = res.data.data.complaints;
+            setComplaints(complaints);
         } catch (err) {
             toast.error('Failed to load your complaints.');
         } finally {
