@@ -25,44 +25,42 @@ const HomeRedirect = () => {
 export default function App() {
     return (
         <AuthProvider>
-            <BrowserRouter>
-                <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-                <Routes>
-                    {/* Public */}
-                    <Route path="/" element={<HomeRedirect />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/track" element={<TrackComplaint />} />
-                    <Route path="/admin/login" element={<AdminLogin />} />
+            <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+            <Routes>
+                {/* Public */}
+                <Route path="/" element={<HomeRedirect />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/track" element={<TrackComplaint />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
 
-                    {/* Citizen protected */}
-                    <Route path="/submit" element={
-                        <ProtectedRoute requiredRole="citizen">
-                            <SubmitComplaint />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/my-complaints" element={
-                        <ProtectedRoute requiredRole="citizen">
-                            <MyComplaints />
-                        </ProtectedRoute>
-                    } />
+                {/* Citizen protected */}
+                <Route path="/submit" element={
+                    <ProtectedRoute requiredRole="citizen">
+                        <SubmitComplaint />
+                    </ProtectedRoute>
+                } />
+                <Route path="/my-complaints" element={
+                    <ProtectedRoute requiredRole="citizen">
+                        <MyComplaints />
+                    </ProtectedRoute>
+                } />
 
-                    {/* Admin/Officer protected */}
-                    <Route path="/admin/dashboard" element={
-                        <ProtectedRoute redirectTo="/admin/login">
-                            <AdminDashboard />
-                        </ProtectedRoute>
-                    } />
-                    <Route path="/admin/analytics" element={
-                        <ProtectedRoute redirectTo="/admin/login">
-                            <Analytics />
-                        </ProtectedRoute>
-                    } />
+                {/* Admin/Officer protected */}
+                <Route path="/admin/dashboard" element={
+                    <ProtectedRoute redirectTo="/admin/login">
+                        <AdminDashboard />
+                    </ProtectedRoute>
+                } />
+                <Route path="/admin/analytics" element={
+                    <ProtectedRoute redirectTo="/admin/login">
+                        <Analytics />
+                    </ProtectedRoute>
+                } />
 
-                    {/* Catch all */}
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-            </BrowserRouter>
+                {/* Catch all */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
         </AuthProvider>
     );
 }
