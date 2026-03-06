@@ -82,6 +82,52 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// ─── TEMPORARY SEED ROUTE ──────────────────────────────────────────
+// Creates admin + officer accounts in MongoDB.
+// REMOVE THIS BLOCK AFTER FIRST USE — it must not exist in production.
+app.get("/api/seed-admin", async (req, res) => {
+  const secret = req.query.secret;
+  if (!secret || secret !== process.env.SEED_SECRET) {
+    return res.status(403).json({ success: false, message: "Forbidden" });
+  }
+  try {
+    const bcrypt = require("bcryptjs");
+    const User = require("./modules/auth/user.model");
+
+    const existing = await User.findOne({ email: "admin@civicsense.com" });
+    if (existing) {
+      return res.status(200).json({
+        success: true,
+        message: "Admin already exists — no changes made",
+        credentials: {
+          admin: "admin@civicsense.com / Admin@123",
+          officer: "officer@civicsense.com / Admin@123",
+        },
+      });
+    }
+
+    const hash = await bcrypt.hash("Admin@123", 12);
+    await User.create([
+      { name: "Admin User", email: "admin@civicsense.com", password: hash, role: "admin", createdAt: new Date() },
+      { name: "Officer One", email: "officer@civicsense.com", password: hash, role: "officer", createdAt: new Date() },
+    ]);
+
+    res.status(201).json({
+      success: true,
+      message: "Admin and Officer created successfully",
+      credentials: {
+        admin: "admin@civicsense.com / Admin@123",
+        officer: "officer@civicsense.com / Admin@123",
+      },
+      warning: "DELETE THIS ROUTE FROM app.js NOW",
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+// ─── END TEMPORARY SEED ROUTE ──────────────────────────────────────
+
+
 // ─── Module Routes ─────────────────────────────────────────────────
 // Each domain module is isolated — plugged in here.
 // Rate limiters applied at route-group level for clean separation.

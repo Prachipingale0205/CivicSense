@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/", protect, createComplaint);
 router.get("/user", protect, getMyComplaints);
+router.post("/chat", protect, chatWithBot);        // MUST be before /:trackingId
 router.get("/:trackingId", getComplaintByTrackingId);
-router.post("/chat", protect, chatWithBot);
 
 module.exports = router;

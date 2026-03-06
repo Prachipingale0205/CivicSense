@@ -22,8 +22,8 @@ export default function TrackComplaint() {
         setResult(null);
 
         try {
-            const res = await api.get(`/api/complaints/track/${trackingId}`);
-            setResult(res.data);
+            const res = await api.get(`/api/complaints/${trackingId.trim()}`);
+            setResult(res.data.data?.complaint || res.data.data || res.data);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Complaint not found. Check tracking ID.');
             setResult(null);
